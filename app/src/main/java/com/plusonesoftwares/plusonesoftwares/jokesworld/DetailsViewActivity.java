@@ -1,8 +1,9 @@
 package com.plusonesoftwares.plusonesoftwares.jokesworld;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -11,7 +12,7 @@ import android.widget.TextView;
  * Created by ashoksharma on 27/02/17.
  */
 
-public class DetailsViewActivity extends Activity {
+public class DetailsViewActivity extends AppCompatActivity {
     Button Close;
     Button Create;
     Button SMS;
@@ -23,6 +24,7 @@ public class DetailsViewActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.details_view);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Create = (Button) findViewById(R.id.btnShare);
         selectedItem = (TextView)findViewById(R.id.selected_Item);
         Intent intent = getIntent();
@@ -42,6 +44,7 @@ public class DetailsViewActivity extends Activity {
 
             }
         });
+
     }
 
    /* private PopupWindow pw;
@@ -94,4 +97,12 @@ public class DetailsViewActivity extends Activity {
             startActivity(Intent.createChooser(shareIntent, "Choose sharing method"));
         }
     };*/
+   @Override
+   public boolean onOptionsItemSelected(MenuItem item) {
+       int id = item.getItemId();
+       if (id == android.R.id.home) {
+           finish();
+       }
+       return super.onOptionsItemSelected(item);
+   }
 }
