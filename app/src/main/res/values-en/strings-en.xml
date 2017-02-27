@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Jokes World</string>
+
+    <!-- Months dropdown list-->
+    <string-array name="Fun_Language">
+        <item>English</item>
+        <item>Hindi</item>
+    </string-array>
+
+    <!-- Months dropdown list-->
+    <string-array name="Fun_Category">
+        <item>Jokes</item>
+        <item>Funny</item>
+        <item>Shayri</item>
+    </string-array>
+
+
+</resources>

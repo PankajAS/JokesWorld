@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">चुटकुले विश्व</string>
+
+    <!-- Months dropdown list-->
+    <string-array name="Fun_Language">
+        <item>अंग्रेज़ी</item>
+        <item>हिंदी</item>
+    </string-array>
+
+    <!-- Months dropdown list-->
+    <string-array name="Fun_Category">
+        <item>चुटकुले</item>
+        <item>मजेदार</item>
+        <item>शायरी</item>
+    </string-array>
+
+
+</resources>
