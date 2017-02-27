@@ -10,4 +10,17 @@
         android:id="@+id/btnShare"
         android:layout_alignParentBottom="true"
         android:layout_margin="15dp" />
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignLeft="@+id/btnShare"
+        android:layout_alignStart="@+id/btnShare"
+        android:layout_marginLeft="129dp"
+        android:layout_marginStart="129dp"
+        android:layout_marginTop="89dp"
+        android:id="@+id/selected_Item" />
+
 </RelativeLayout>

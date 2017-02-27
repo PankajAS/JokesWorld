@@ -2,16 +2,16 @@ package com.plusonesoftwares.plusonesoftwares.jokesworld;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.PopupWindow;
-import android.widget.Spinner;
+import android.widget.TextView;
 
 /**
  * Created by ashoksharma on 27/02/17.
@@ -20,12 +20,16 @@ import android.widget.Spinner;
 public class DetailsViewActivity extends Activity {
     Button Close;
     Button Create;
+    TextView selectedData;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.details_view);
         Create = (Button) findViewById(R.id.btnShare);
+        selectedData = (TextView)findViewById(R.id.selected_Item);
+        Intent intent = getIntent();
+        selectedData.setText(intent.getStringExtra("Name"));
 
         Create.setOnClickListener(new View.OnClickListener() {
             @Override
