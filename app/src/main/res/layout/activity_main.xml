@@ -16,13 +16,18 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="12dp"
-        android:id="@+id/lang" />
+        android:id="@+id/lang"
+        android:entries="@array/Fun_Language"
+        android:padding="5dp" />
 
     <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/lang"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"
-        android:id="@+id/category" />
+        android:layout_marginTop="30dp"
+        android:id="@+id/category"
+        android:entries="@array/Fun_Category"
+        android:padding="5dp" />
+
 </RelativeLayout>
