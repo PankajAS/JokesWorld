@@ -9,7 +9,9 @@
         android:layout_height="wrap_content"
         android:id="@+id/btnShare"
         android:layout_alignParentBottom="true"
-        android:layout_margin="15dp" />
+        android:layout_margin="15dp"
+        android:background="@color/colorPrimaryDark"
+        android:textColor="@android:color/white" />
 
     <TextView
         android:text="TextView"
