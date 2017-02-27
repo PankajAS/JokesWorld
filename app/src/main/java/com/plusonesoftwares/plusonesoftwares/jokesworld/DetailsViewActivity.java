@@ -3,15 +3,17 @@ package com.plusonesoftwares.plusonesoftwares.jokesworld;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.PopupWindow;
-import android.widget.TextView;
+import android.widget.Spinner;
 
 /**
  * Created by ashoksharma on 27/02/17.
@@ -20,16 +22,13 @@ import android.widget.TextView;
 public class DetailsViewActivity extends Activity {
     Button Close;
     Button Create;
-    TextView selectedData;
+    Button SMS;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.details_view);
         Create = (Button) findViewById(R.id.btnShare);
-        selectedData = (TextView)findViewById(R.id.selected_Item);
-        Intent intent = getIntent();
-        selectedData.setText(intent.getStringExtra("Name"));
 
         Create.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,6 +53,10 @@ public class DetailsViewActivity extends Activity {
 
             Close = (Button) layout.findViewById(R.id.close_popup);
             Close.setOnClickListener(cancel_button);
+
+            SMS = (Button) layout.findViewById(R.id.btnShareOnSMS);
+            SMS.setOnClickListener(openSMS);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -62,6 +65,15 @@ public class DetailsViewActivity extends Activity {
     private View.OnClickListener cancel_button = new View.OnClickListener() {
         public void onClick(View v) {
             pw.dismiss();
+        }
+    };
+
+    private View.OnClickListener openSMS = new View.OnClickListener() {
+        public void onClick(View v) {
+            Intent sendIntent = new Intent(Intent.ACTION_VIEW);
+            sendIntent.setData(Uri.parse("sms:"));
+            sendIntent.putExtra("sms_body", "Jokes");
+            startActivity(sendIntent);
         }
     };
 }
