@@ -1,17 +1,19 @@
 <resources>
-    <string name="app_name">चुटकुले विश्व</string>
+    <string name="app_name">Jokes World</string>
 
     <!-- Months dropdown list-->
     <string-array name="Fun_Language">
-        <item>अंग्रेज़ी</item>
-        <item>हिंदी</item>
+        <item>Select Language</item>
+        <item>English</item>
+        <item>Hindi</item>
     </string-array>
 
     <!-- Months dropdown list-->
     <string-array name="Fun_Category">
-        <item>चुटकुले</item>
-        <item>मजेदार</item>
-        <item>शायरी</item>
+        <item>Select Category</item>
+        <item>Jokes</item>
+        <item>Funny</item>
+        <item>Shayri</item>
     </string-array>
 
 

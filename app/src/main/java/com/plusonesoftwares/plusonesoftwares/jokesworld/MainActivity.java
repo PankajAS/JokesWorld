@@ -20,12 +20,12 @@ public class MainActivity extends AppCompatActivity {
         lang  = (Spinner)findViewById(R.id.lang);
         category = (Spinner)findViewById(R.id.category);
 
-        string = new ArrayList<>();
-        string.add("English");
-        string.add("Hindi");
-        adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, string);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        lang.setAdapter(adapter);
+//        string = new ArrayList<>();
+//        string.add("English");
+//        string.add("Hindi");
+//        adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, string);
+//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        lang.setAdapter(adapter);
 
     }
 }
