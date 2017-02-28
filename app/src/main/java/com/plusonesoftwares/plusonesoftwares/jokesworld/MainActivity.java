@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     HttpConnection httpConnection;
     ProgressDialog dialog;
     ListView data;
-    CustomMainListAdapter adapter;
+    CategoryListAdapter adapter;
 
 
     @Override
@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         //adapter1 = new ArrayAdapter<String>(getApplicationContext(), R.layout.data_item, R.id.data_items,string);
-        adapter = new CustomMainListAdapter(this,R.layout.list_items,string);
+        adapter = new CategoryListAdapter(this,R.layout.category_list_items,string);
         data.setAdapter(adapter);
     }
 }

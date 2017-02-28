@@ -15,11 +15,11 @@ import java.util.List;
  * Created by Plus 3 on 28-02-2017.
  */
 
-public class CustomMainListAdapter extends ArrayAdapter {
+public class CategoryListAdapter extends ArrayAdapter {
     List<String> list;
     Context context;
 
-    public CustomMainListAdapter(Context context, int resource, List<String> string) {
+    public CategoryListAdapter(Context context, int resource, List<String> string) {
         super(context, resource, string);
         list = string;
         this.context = context;
@@ -29,7 +29,7 @@ public class CustomMainListAdapter extends ArrayAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = LayoutInflater.from(getContext());
-        View rowView= inflater.inflate(R.layout.list_items, null, true);
+        View rowView= inflater.inflate(R.layout.category_list_items, null, true);
         TextView title = (TextView)rowView.findViewById(R.id.Title);
         title.setText(list.get(position));
 
