@@ -32,33 +32,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         lang  = (Spinner)findViewById(R.id.lang);
-        category = (Spinner)findViewById(R.id.category);
         v = (View)findViewById(R.id.include_data);
         data = (ListView)v.findViewById(R.id.Stored_data);
         string = new ArrayList<>();
         httpConnection = new HttpConnection();
 
-        category.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
-                sendRequest(adapterView.getSelectedItem().toString());
-//                if(adapterView.getSelectedItem().equals("Jokes")){
-//
-//                    sendRequest(adapterView.getSelectedItem().toString());
-//                }else if(adapterView.getSelectedItem().equals("Shayri")){
-//
-//                    System.out.println("Yopu are selected: "+adapterView.getSelectedItem() );
-//                }else if(adapterView.getSelectedItem().equals("Funny")){
-//                    System.out.println("Yopu are selected: "+adapterView.getSelectedItem() );
-//                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
+        sendRequest("");//sending request to fetch category data here
 
         data.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -72,11 +51,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void sendRequest(String name){
-
         try {
-
             string =httpConnection.new FetchData(MainActivity.this).execute(new URL("https://api.github.com/users")).get();
-
             // dialog.dismiss();
         } catch (MalformedURLException e) {
             e.printStackTrace();
