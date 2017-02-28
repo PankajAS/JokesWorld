@@ -41,15 +41,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
-                if(adapterView.getSelectedItem().equals("Jokes")){
-
-                    sendRequest(adapterView.getSelectedItem().toString());
-                }else if(adapterView.getSelectedItem().equals("Shayri")){
-
-                    System.out.println("Yopu are selected: "+adapterView.getSelectedItem() );
-                }else if(adapterView.getSelectedItem().equals("Funny")){
-                    System.out.println("Yopu are selected: "+adapterView.getSelectedItem() );
-                }
+                sendRequest(adapterView.getSelectedItem().toString());
+//                if(adapterView.getSelectedItem().equals("Jokes")){
+//
+//                    sendRequest(adapterView.getSelectedItem().toString());
+//                }else if(adapterView.getSelectedItem().equals("Shayri")){
+//
+//                    System.out.println("Yopu are selected: "+adapterView.getSelectedItem() );
+//                }else if(adapterView.getSelectedItem().equals("Funny")){
+//                    System.out.println("Yopu are selected: "+adapterView.getSelectedItem() );
+//                }
             }
 
             @Override

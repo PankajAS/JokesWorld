@@ -1,3 +1,20 @@
 <resources>
-    <string name="app_name">Jokes World</string>
+    <string name="app_name">Hindi Shayari Hub</string>
+
+    <!-- Months dropdown list-->
+    <string-array name="Fun_Language">
+        <item>Select Language</item>
+        <item>English</item>
+        <item>Hindi</item>
+    </string-array>
+
+    <!-- Months dropdown list-->
+    <string-array name="Fun_Category">
+        <item>Select Category</item>
+        <item>Jokes</item>
+        <item>Funny</item>
+        <item>Shayri</item>
+    </string-array>
+
+
 </resources>
