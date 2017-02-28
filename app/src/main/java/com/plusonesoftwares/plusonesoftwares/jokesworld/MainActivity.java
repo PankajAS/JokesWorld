@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         lang  = (Spinner)findViewById(R.id.lang);
         v = (View)findViewById(R.id.include_data);
         data = (ListView)v.findViewById(R.id.Stored_data);
-        string = new ArrayList<>();
+        string = new ArrayList<String>();
         httpConnection = new HttpConnection();
 
         sendRequest("");//sending request to fetch category data here
@@ -42,8 +42,10 @@ public class MainActivity extends AppCompatActivity {
         data.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(MainActivity.this,DetailsViewActivity.class);
+                Intent intent = new Intent(MainActivity.this,Category_DetailsView.class);
                 intent.putExtra("Name",string.get(i));
+                intent.putStringArrayListExtra("List", (ArrayList<String>) string);
+
                 startActivity(intent);
 
             }

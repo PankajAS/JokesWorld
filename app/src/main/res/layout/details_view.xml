@@ -1,8 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:theme="@style/AppTheme">
+    android:theme="@style/AppTheme"
+    android:background="@drawable/list_background_image">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_margin="10dp"
+        android:alpha="0.6"
+        android:background="@drawable/list_radious">
+
+        <TextView
+            android:text="TextView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_alignLeft="@+id/btnShare"
+            android:layout_alignStart="@+id/btnShare"
+            android:id="@+id/selected_Item"
+            android:background="?attr/colorButtonNormal"
+            />
+    </RelativeLayout>
+
     <Button
         android:text="Share"
         android:layout_width="match_parent"
@@ -13,15 +35,36 @@
         android:background="@color/colorPrimaryDark"
         android:textColor="@android:color/white" />
 
-    <TextView
-        android:text="TextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignLeft="@+id/btnShare"
-        android:layout_alignStart="@+id/btnShare"
-        android:layout_marginLeft="129dp"
-        android:layout_marginStart="129dp"
-        android:layout_marginTop="89dp"
-        android:id="@+id/selected_Item" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:alpha="0.6"
+        android:layout_above="@+id/btnShare"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_margin="10dp">
+
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/next"
+            android:id="@+id/imageView2"
+            android:background="?attr/colorButtonNormal"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:srcCompat="@drawable/previous"
+            android:id="@+id/imageView"
+            android:background="?attr/colorButtonNormal"
+            android:layout_alignTop="@+id/imageView2"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+    </RelativeLayout>
+
+
 </RelativeLayout>

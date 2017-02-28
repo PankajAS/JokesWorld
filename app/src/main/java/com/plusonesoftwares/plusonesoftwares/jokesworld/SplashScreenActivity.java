@@ -47,7 +47,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                 {
                     Intent intent = new Intent(SplashScreenActivity.this, MainActivity.class);
                     startActivity(intent);
-                    overridePendingTransition(R.transition.move, R.transition.stay);
+                    //overridePendingTransition(R.transition.move, R.transition.stay);
                 }
             }
         }).start();
