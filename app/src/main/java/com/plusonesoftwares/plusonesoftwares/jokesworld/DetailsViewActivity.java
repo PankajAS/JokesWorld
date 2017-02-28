@@ -18,17 +18,19 @@ public class DetailsViewActivity extends AppCompatActivity {
     Button SMS;
     Button FB;
     TextView selectedItem;
-    String jokesDetails;
+    String jokesDetails, toolbarTitle;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.details_view);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Intent intent = getIntent();
+        jokesDetails = intent.getStringExtra("Content");
+        toolbarTitle = intent.getStringExtra("Category");
+        setTitle(toolbarTitle);
         Create = (Button) findViewById(R.id.btnShare);
         selectedItem = (TextView)findViewById(R.id.selected_Item);
-        Intent intent = getIntent();
-        jokesDetails = intent.getStringExtra("Name");
         selectedItem.setText(jokesDetails);
 
         Create.setOnClickListener(new View.OnClickListener() {

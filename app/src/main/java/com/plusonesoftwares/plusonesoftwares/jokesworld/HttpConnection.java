@@ -14,6 +14,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -26,10 +27,12 @@ public class HttpConnection {
     StringBuilder sb = null;
     JSONObject jsonData;
 
-    public class FetchData extends AsyncTask<URL,Context,List<String>>{
+    public class FetchData extends AsyncTask<URL,Context,JSONArray>{
         private Context context;
         List<String> list = new ArrayList<>();
+        HashMap<String, String> contentId = new HashMap<>();
         ProgressDialog dialog;
+        JSONArray array;
 
         public FetchData(Context context1){
             context = context1;
@@ -42,7 +45,7 @@ public class HttpConnection {
         }
 
         @Override
-        protected List<String> doInBackground(URL... urls) {
+        protected JSONArray doInBackground(URL... urls) {
             URL url = urls[0];
             String line;
             String c;
@@ -54,22 +57,17 @@ public class HttpConnection {
                 while ((line = in.readLine()) != null) {
                     sb.append(line);
                 }
-                JSONArray array = new JSONArray(sb.toString());
-                for (int i = 0; i < array.length(); i++) {
-                    jsonData = array.getJSONObject(i);
-                    list.add(jsonData.getString("login"));
-                }
-
+                array = new JSONArray(sb.toString());
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            return list;
+            return array;
         }
 
         @Override
-        protected void onPostExecute(List<String> strings) {
+        protected void onPostExecute(JSONArray strings) {
             dialog.dismiss();
             super.onPostExecute(strings);
         }

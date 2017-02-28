@@ -10,9 +10,14 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -25,6 +30,10 @@ public class MainActivity extends AppCompatActivity {
     ProgressDialog dialog;
     ListView data;
     CategoryListAdapter adapter;
+    String Url = "http://192.168.1.104/api/Category";
+    JSONArray jsonArray;
+    JSONObject jsonObject;
+    HashMap<Integer,String> contentData;
 
 
     @Override
@@ -36,25 +45,41 @@ public class MainActivity extends AppCompatActivity {
         data = (ListView)v.findViewById(R.id.Stored_data);
         string = new ArrayList<String>();
         httpConnection = new HttpConnection();
+        contentData = new HashMap<>();
 
-        sendRequest("");//sending request to fetch category data here
+        try {
+            sendRequest();//sending request to fetch category data here
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         data.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(MainActivity.this,Category_DetailsView.class);
-                intent.putExtra("Name",string.get(i));
-                intent.putStringArrayListExtra("List", (ArrayList<String>) string);
+                try {
+                    JSONObject jobject = jsonArray.getJSONObject(i);
 
-                startActivity(intent);
+                    Intent intent = new Intent(MainActivity.this,Category_DetailsView.class);
+                    intent.putExtra("Name",jobject.getString("Category"));
+                    intent.putExtra("ID",jobject.getString("ID"));
+                    startActivity(intent);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
 
             }
         });
     }
 
-    public void sendRequest(String name){
+    public void sendRequest() throws JSONException {
         try {
-            string =httpConnection.new FetchData(MainActivity.this).execute(new URL("https://api.github.com/users")).get();
+            jsonArray = httpConnection.new FetchData(MainActivity.this).execute(new URL(Url)).get();
+
+            for (int i = 0; i < jsonArray.length(); i++) {
+                jsonObject = jsonArray.getJSONObject(i);
+                string.add(jsonObject.getString("ContentCount"));
+            }
             // dialog.dismiss();
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -63,8 +88,10 @@ public class MainActivity extends AppCompatActivity {
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
-        //adapter1 = new ArrayAdapter<String>(getApplicationContext(), R.layout.data_item, R.id.data_items,string);
-        adapter = new CategoryListAdapter(this,R.layout.category_list_items,string);
+
+
+        adapter = new CategoryListAdapter(this,R.layout.category_list_items,jsonArray, string);
         data.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
     }
 }

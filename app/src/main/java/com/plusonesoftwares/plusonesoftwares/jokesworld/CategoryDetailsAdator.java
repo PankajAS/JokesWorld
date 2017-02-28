@@ -8,6 +8,10 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.List;
 
 /**
@@ -16,9 +20,11 @@ import java.util.List;
 
 public class CategoryDetailsAdator extends ArrayAdapter {
     List<String> list;
-    public CategoryDetailsAdator(Context context, int resource, List objects) {
+    JSONArray jarray;
+    public CategoryDetailsAdator(Context context, int resource, JSONArray jarray, List objects) {
         super(context, resource, objects);
         list = objects;
+        this.jarray=jarray;
     }
 
     @NonNull
@@ -27,8 +33,15 @@ public class CategoryDetailsAdator extends ArrayAdapter {
         LayoutInflater inflater = LayoutInflater.from(getContext());
         View rowView= inflater.inflate(R.layout.detail_items, null, true);
         TextView detail_title = (TextView) rowView.findViewById(R.id.detail_title);
+        try {
+            JSONObject jobject = jarray.getJSONObject(position);
+            detail_title.setText(jobject.getString("Content"));
 
-        detail_title.setText(list.get(position));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+       // detail_title.setText(list.get(position));
         return rowView;
     }
+
 }
