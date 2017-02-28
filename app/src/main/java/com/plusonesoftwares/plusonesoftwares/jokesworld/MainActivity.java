@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     HttpConnection httpConnection;
     ProgressDialog dialog;
     ListView data;
+    CustomMainListAdapter adapter;
 
 
     @Override
@@ -84,7 +85,8 @@ public class MainActivity extends AppCompatActivity {
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
-        adapter1 = new ArrayAdapter<String>(getApplicationContext(), R.layout.data_item, R.id.data_items,string);
-        data.setAdapter(adapter1);
+        //adapter1 = new ArrayAdapter<String>(getApplicationContext(), R.layout.data_item, R.id.data_items,string);
+        adapter = new CustomMainListAdapter(this,R.layout.list_items,string);
+        data.setAdapter(adapter);
     }
 }
