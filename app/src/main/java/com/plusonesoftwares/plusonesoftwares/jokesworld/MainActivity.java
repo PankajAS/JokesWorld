@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     ProgressDialog dialog;
     ListView data;
     CategoryListAdapter adapter;
-    String Url = "http://192.168.1.104/api/Category";
+    String Url = "http://192.168.1.104/api/Category/GetAll";
     JSONArray jsonArray;
     JSONObject jsonObject;
     HashMap<Integer,String> contentData;

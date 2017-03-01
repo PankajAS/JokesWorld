@@ -24,7 +24,7 @@ public class Category_DetailsView extends AppCompatActivity {
     ListView Detail_View_List;
     String Title;
     String ID;
-    String Url = "http://192.168.1.104/api/content";
+    String Url = "http://192.168.1.104/api/Content/GetContentByCategoryId?id=";
     HttpConnection httpConnection;
     JSONArray jsonArray;
     JSONObject jobject;
@@ -52,8 +52,9 @@ public class Category_DetailsView extends AppCompatActivity {
                 try {
                     JSONObject jobject = jsonArray.getJSONObject(i);
                     Intent intent = new Intent(Category_DetailsView.this,DetailsViewActivity.class);
-                    intent.putExtra("Content",jobject.getString("Content"));
+                    intent.putExtra("Content",jsonArray.toString());
                     intent.putExtra("Category",Title);
+                    intent.putExtra("SelectedIndex", String.valueOf(i));
                     startActivity(intent);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -62,7 +63,7 @@ public class Category_DetailsView extends AppCompatActivity {
         });
 
         try {
-            jsonArray = httpConnection.new FetchData(Category_DetailsView.this).execute(new URL(Url+"/"+ID)).get();
+            jsonArray = httpConnection.new FetchData(Category_DetailsView.this).execute(new URL(Url+ID)).get();
 
             for (int i = 0; i < jsonArray.length(); i++) {
                 jobject = jsonArray.getJSONObject(i);

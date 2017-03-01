@@ -1,37 +1,17 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/relativeLayout"
     android:theme="@style/AppTheme"
-    android:background="@drawable/list_background_image">
+    android:minHeight="350dp">
 
-
-
-        <TextView
-            android:text="TextView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentTop="true"
-
-            android:id="@+id/selected_Item"
-            android:background="?attr/colorButtonNormal"
-            android:layout_above="@+id/btnShare"
-            android:alpha="0.6"
-            android:padding="10dp"
-            android:textColor="@android:color/black"
-            android:textStyle="bold" />
-
-
-    <Button
-        android:text="Share"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/btnShare"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="15dp"
-        android:background="@color/colorPrimaryDark"
-        android:textColor="@android:color/white" />
+<android.support.v4.view.ViewPager
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/pager"
+    android:layout_width="match_parent"
+    android:layout_height="350dp"
+    android:minHeight="250dp" />
 
 
 </RelativeLayout>
