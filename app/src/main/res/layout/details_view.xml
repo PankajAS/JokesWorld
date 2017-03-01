@@ -1,17 +1,61 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/relativeLayout"
     android:theme="@style/AppTheme"
-    android:minHeight="350dp">
+    android:minHeight="350dp"
+    android:background="@drawable/list_background_image">
 
 <android.support.v4.view.ViewPager
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/pager"
     android:layout_width="match_parent"
+    android:minHeight="350dp"
     android:layout_height="350dp"
-    android:minHeight="250dp" />
+
+    android:layout_margin="10dp"
+    android:alpha="0.7" />
+
+    <LinearLayout
+        android:id="@+id/buttonContainer"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/pager"
+        android:gravity="center"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="5dp">
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            app:srcCompat="@drawable/whatsapp2"
+            android:id="@+id/ImButtonShareOnWhatsapp"
+            android:layout_weight="1"
+            android:background="@drawable/list_radious"
+            android:layout_margin="5dp" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            app:srcCompat="?android:attr/actionModeShareDrawable"
+            android:id="@+id/ImButtonShare"
+            android:layout_weight="1"
+            android:layout_height="100dp"
+            android:background="@drawable/list_radious"
+            android:layout_margin="5dp" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            app:srcCompat="?android:attr/actionModeCopyDrawable"
+            android:id="@+id/ImButtonCopy"
+            android:layout_weight="1"
+            android:layout_height="100dp"
+            android:background="@drawable/list_radious"
+            android:layout_margin="5dp" />
+
+    </LinearLayout>
 
 
 </RelativeLayout>

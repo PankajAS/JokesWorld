@@ -10,8 +10,10 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,15 +25,16 @@ import org.json.JSONObject;
 
 public class DetailsViewActivity extends AppCompatActivity {
 
-    private static final int NUM_PAGES = 5;
     private ViewPager mPager;
     private PagerAdapter mPagerAdapter;
     TextView selectedItem;
+    ImageButton ImButtonShare;
+    ImageButton ImButtonCopy;
+    ImageButton ImButtonShareOnWhatsapp;
     Intent intent;
     String jsonArray;
     JSONArray array;
     JSONObject jobject;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,9 +43,12 @@ public class DetailsViewActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mPager = (ViewPager) findViewById(R.id.pager);
         selectedItem = (TextView)findViewById(R.id.txtcontent);
+        ImButtonShare = (ImageButton) findViewById(R.id.ImButtonShare);
+        ImButtonCopy = (ImageButton) findViewById(R.id.ImButtonCopy);
+        ImButtonShareOnWhatsapp = (ImageButton) findViewById(R.id.ImButtonShareOnWhatsapp);
         intent = getIntent();
 
-        jsonArray=intent.getStringExtra("Content");
+        jsonArray = intent.getStringExtra("Content");
         try {
             array = new JSONArray(jsonArray);
 
@@ -54,8 +60,68 @@ public class DetailsViewActivity extends AppCompatActivity {
         mPager.setAdapter(mPagerAdapter);
         String index = intent.getStringExtra("SelectedIndex");
         mPager.setCurrentItem(Integer.parseInt(index));//selecting the selected tab as CHAT TAB
+        setTitle(intent.getStringExtra("Category"));
 
+        ImButtonShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    Intent shareIntent = new Intent();
+                    shareIntent.setAction(Intent.ACTION_SEND);
+                    shareIntent.putExtra(Intent.EXTRA_TEXT, getSelectedContent(mPager.getCurrentItem()));
+                    shareIntent.setType("text/plain");
+                    startActivity(Intent.createChooser(shareIntent, "Choose sharing method"));
+                } catch (JSONException e) {
+                     e.printStackTrace();
+                }
+            }
+        });
+        ImButtonCopy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    setClipboard(getSelectedContent(mPager.getCurrentItem()));
+                    Toast toast = Toast.makeText(getApplicationContext(), "Copied to clipboard" , Toast.LENGTH_SHORT);
+                    toast.show();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        ImButtonShareOnWhatsapp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent whatsappIntent = new Intent(Intent.ACTION_SEND);
+                whatsappIntent.setType("text/plain");
+                whatsappIntent.setPackage("com.whatsapp");
+                try{
+                    whatsappIntent.putExtra(Intent.EXTRA_TEXT, getSelectedContent(mPager.getCurrentItem()));
+                    startActivity(whatsappIntent);
+                } catch (android.content.ActivityNotFoundException ex) {
+                    Toast toast = Toast.makeText(getApplicationContext(), "Whatsapp have not been installed." , Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+                catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
 
+    private String getSelectedContent(int index) throws JSONException {
+        jobject = array.getJSONObject(index);
+        return jobject.getString("Content");
+    }
+
+    private void setClipboard(String text) {
+        if(android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.HONEYCOMB) {
+            android.text.ClipboardManager clipboard = (android.text.ClipboardManager) getApplicationContext().getSystemService(Context.CLIPBOARD_SERVICE);
+            clipboard.setText(text);
+        } else {
+            android.content.ClipboardManager clipboard = (android.content.ClipboardManager) getApplicationContext().getSystemService(Context.CLIPBOARD_SERVICE);
+            android.content.ClipData clip = android.content.ClipData.newPlainText("Copied Text", text);
+            clipboard.setPrimaryClip(clip);
+        }
     }
 
     @Override
@@ -81,19 +147,19 @@ public class DetailsViewActivity extends AppCompatActivity {
 
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
-            View v =mLayoutInflater.inflate(R.layout.fragment_screen_slide_page,container,false);
-            TextView txt = (TextView)v.findViewById(R.id.txtcontent);
+            View viewContent = mLayoutInflater.inflate(R.layout.fragment_screen_slide_page,container,false);
+            TextView txtFullContent = (TextView)viewContent.findViewById(R.id.txtcontent);
             try {
-                jobject = array.getJSONObject(position);
-                txt.setText(jobject.getString("Content"));
+
+                txtFullContent.setText(getSelectedContent(position));
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
+            container.addView(viewContent);
 
-            container.addView(v);
-
-            return v;
+            return viewContent;
         }
 
         @Override

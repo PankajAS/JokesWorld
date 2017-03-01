@@ -1,22 +1,26 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/content"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/list_background_image">
+    android:layout_height="match_parent">
 
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/list_radious"
-        android:alpha="0.6"
-        android:minHeight="350dp">
+        android:alpha="0.8"
+        android:minHeight="350dp"
+        android:background="@android:color/darker_gray"
+        >
         <TextView
-            android:text="TextView"
+            android:text="No data found for this category"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/txtcontent"
-            android:padding="10dp" />
+            android:padding="15dp"
+            android:alpha="1"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
     </RelativeLayout>
 
 
