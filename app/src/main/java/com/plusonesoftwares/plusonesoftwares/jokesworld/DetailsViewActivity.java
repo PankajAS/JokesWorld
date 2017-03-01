@@ -18,7 +18,6 @@ import android.widget.Toast;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 /**
  * Created by ashoksharma on 27/02/17.
  */
@@ -35,6 +34,7 @@ public class DetailsViewActivity extends AppCompatActivity {
     String jsonArray;
     JSONArray array;
     JSONObject jobject;
+    String pageTitle;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,6 +47,7 @@ public class DetailsViewActivity extends AppCompatActivity {
         ImButtonCopy = (ImageButton) findViewById(R.id.ImButtonCopy);
         ImButtonShareOnWhatsapp = (ImageButton) findViewById(R.id.ImButtonShareOnWhatsapp);
         intent = getIntent();
+        pageTitle = intent.getStringExtra("Category");
 
         jsonArray = intent.getStringExtra("Content");
         try {
@@ -60,7 +61,7 @@ public class DetailsViewActivity extends AppCompatActivity {
         mPager.setAdapter(mPagerAdapter);
         String index = intent.getStringExtra("SelectedIndex");
         mPager.setCurrentItem(Integer.parseInt(index));//selecting the selected tab as CHAT TAB
-        setTitle(intent.getStringExtra("Category"));
+        setTitle(pageTitle);
 
         ImButtonShare.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,6 +107,9 @@ public class DetailsViewActivity extends AppCompatActivity {
                 }
             }
         });
+
+        Toast toast = Toast.makeText(getApplicationContext(), "Scroll left and rifgt to see more " + pageTitle , Toast.LENGTH_LONG);
+        toast.show();
     }
 
     private String getSelectedContent(int index) throws JSONException {

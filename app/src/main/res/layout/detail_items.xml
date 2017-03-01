@@ -31,7 +31,8 @@
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/category_image"
             android:layout_toEndOf="@+id/category_image"
-            android:layout_marginRight="40dp" />
+            android:layout_marginRight="40dp"
+            android:lines="3" />
 
         <ImageView
             android:id="@+id/ivArrow"

@@ -1,11 +1,15 @@
 package com.plusonesoftwares.plusonesoftwares.jokesworld;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -30,18 +34,29 @@ public class CategoryDetailsAdator extends ArrayAdapter {
     @NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        LayoutInflater inflater = LayoutInflater.from(getContext());
-        View rowView= inflater.inflate(R.layout.detail_items, null, true);
-        TextView detail_title = (TextView) rowView.findViewById(R.id.detail_title);
-        try {
-            JSONObject jobject = jarray.getJSONObject(position);
-            detail_title.setText(jobject.getString("Content"));
+        CategoryDetailsAdator.ViewHolder holder= null;
+        if(convertView == null) {
+            holder = new CategoryDetailsAdator.ViewHolder();
+            LayoutInflater inflater=LayoutInflater.from(getContext());
+            convertView = inflater.inflate(R.layout.detail_items, null ,true);
+            holder.selectedCatDetail = (TextView) convertView.findViewById(R.id.detail_title);
 
-        } catch (JSONException e) {
-            e.printStackTrace();
+            try {
+                JSONObject jobject = jarray.getJSONObject(position);
+                holder.selectedCatDetail.setText(jobject.getString("Content"));
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }else{
+            holder = (CategoryDetailsAdator.ViewHolder) convertView.getTag();
         }
-       // detail_title.setText(list.get(position));
-        return rowView;
+        return convertView;
+    }
+
+    private class ViewHolder{
+        TextView selectedCatDetail;
     }
 
 }
