@@ -28,6 +28,7 @@ public class HttpConnection {
     JSONObject jsonData;
 
     public class FetchData extends AsyncTask<URL,Context,JSONArray>{
+
         private Context context;
         List<String> list = new ArrayList<>();
         HashMap<String, String> contentId = new HashMap<>();
@@ -40,7 +41,7 @@ public class HttpConnection {
 
         @Override
         protected void onPreExecute() {
-           dialog = ProgressDialog.show(context, "","Loading...", true);
+           //dialog = ProgressDialog.show(context, "","Loading...", true);
             super.onPreExecute();
         }
 
@@ -68,7 +69,7 @@ public class HttpConnection {
 
         @Override
         protected void onPostExecute(JSONArray strings) {
-            dialog.dismiss();
+            //dialog.dismiss();
             super.onPostExecute(strings);
         }
     }

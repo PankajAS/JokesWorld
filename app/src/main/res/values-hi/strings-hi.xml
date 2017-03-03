@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Jokes World</string>
+    <string name="app_name">S S Masti</string> <!--Shero Shayri &amp; Masti -->
 
     <!-- Months dropdown list-->
     <string-array name="Fun_Language">
@@ -16,5 +16,6 @@
         <item>Shayri</item>
     </string-array>
 
+    <string name="connectionError">Please check your internet connection!</string>
 
 </resources>

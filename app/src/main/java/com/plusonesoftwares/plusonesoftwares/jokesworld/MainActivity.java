@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,7 +23,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity {
-    Spinner lang, category;
+    Spinner spinnerLang, category;
     List<String> string;
     ArrayAdapter<String> adapter1;
     View v;
@@ -30,28 +31,58 @@ public class MainActivity extends AppCompatActivity {
     ProgressDialog dialog;
     ListView data;
     CategoryListAdapter adapter;
-    String Url = "http://192.168.1.104/api/Category/GetAll";
+    String Url = "http://ssmasti.com/api/Category/GetAll";
+    String getLanguageCategory_Url = "http://ssmasti.com/api/Category/GetCategoryByLanguageId?id=";
+
+    Utils utils;
     JSONArray jsonArray;
     JSONObject jsonObject;
-    HashMap<Integer,String> contentData;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        lang  = (Spinner)findViewById(R.id.lang);
+        spinnerLang  = (Spinner)findViewById(R.id.spinnerLang);
         v = (View)findViewById(R.id.include_data);
         data = (ListView)v.findViewById(R.id.Stored_data);
         string = new ArrayList<String>();
         httpConnection = new HttpConnection();
-        contentData = new HashMap<>();
+        utils = new Utils();
 
         try {
-            sendRequest();//sending request to fetch category data here
+            if(utils.haveNetworkConnection(getApplicationContext())) {
+                sendRequest(Url);//sending request to fetch category data here
+            }
+            else
+            {
+                utils.showNetworkConnectionMsg(MainActivity.this);
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        //Spinner change event
+        /*spinnerLang.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+                try {
+                    if(utils.haveNetworkConnection(getApplicationContext())) {
+                        String langId = spinnerLang.getSelectedItem().equals("Hindi")? "1":"2";
+                        sendRequest(getLanguageCategory_Url + langId);//sending request to fetch category data here by language
+                    }
+                    else
+                    {
+                        utils.showNetworkConnectionMsg(MainActivity.this);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+                // TODO Auto-generated method stub
+            }
+        });*/
 
         data.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -66,19 +97,23 @@ public class MainActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
-
             }
         });
     }
 
-    public void sendRequest() throws JSONException {
+    public void sendRequest(String httpUrl) throws JSONException {
         try {
-            jsonArray = httpConnection.new FetchData(MainActivity.this).execute(new URL(Url)).get();
+            jsonArray = httpConnection.new FetchData(MainActivity.this).execute(new URL(httpUrl)).get();
 
-            for (int i = 0; i < jsonArray.length(); i++) {
-                jsonObject = jsonArray.getJSONObject(i);
-                string.add(jsonObject.getString("ContentCount"));
+            if(jsonArray !=null && jsonArray.length()>0) {
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    jsonObject = jsonArray.getJSONObject(i);
+                    string.add(jsonObject.getString("ContentCount"));
+                }
+            }
+            else
+            {
+                Toast.makeText(getApplicationContext(), "No data found", Toast.LENGTH_LONG).show();
             }
             // dialog.dismiss();
         } catch (MalformedURLException e) {
@@ -88,9 +123,7 @@ public class MainActivity extends AppCompatActivity {
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
-
-
-        adapter = new CategoryListAdapter(this,R.layout.category_list_items,jsonArray, string);
+        adapter = new CategoryListAdapter(this, R.layout.category_list_items, jsonArray, string);
         data.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }

@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,17 +25,19 @@ public class Category_DetailsView extends AppCompatActivity {
     ListView Detail_View_List;
     String Title;
     String ID;
-    String Url = "http://192.168.1.104/api/Content/GetContentByCategoryId?id=";
+    String Url = "http://ssmasti.com/api/Content/GetContentByCategoryId?id=";
+
     HttpConnection httpConnection;
     JSONArray jsonArray;
     JSONObject jobject;
-
+    Utils utils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category__details_view);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         Details_List = new ArrayList<>();
         Detail_View_List = (ListView)findViewById(R.id.detail_list);
         Intent intent = getIntent();
@@ -42,9 +45,7 @@ public class Category_DetailsView extends AppCompatActivity {
         ID = intent.getStringExtra("ID");
         setTitle(Title);
         httpConnection = new HttpConnection();
-       // Details_List = intent.getStringArrayListExtra("List");
-        //adapter = new CategoryDetailsAdator(this,R.layout.detail_items, Details_List);
-       // Detail_View_List.setAdapter(adapter);
+        utils = new Utils();
 
         Detail_View_List.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -62,27 +63,37 @@ public class Category_DetailsView extends AppCompatActivity {
             }
         });
 
-        try {
-            jsonArray = httpConnection.new FetchData(Category_DetailsView.this).execute(new URL(Url+ID)).get();
+        if(utils.haveNetworkConnection(getApplicationContext())) {
+            try {
+                jsonArray = httpConnection.new FetchData(Category_DetailsView.this).execute(new URL(Url + ID)).get();
 
-            for (int i = 0; i < jsonArray.length(); i++) {
-                jobject = jsonArray.getJSONObject(i);
-                Details_List.add(jobject.getString("ID"));
+                if(jsonArray !=null && jsonArray.length()>0) {
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        jobject = jsonArray.getJSONObject(i);
+                        Details_List.add(jobject.getString("ID"));
+                    }
+                }
+                else
+                {
+                    Toast.makeText(getApplicationContext(), "No data found", Toast.LENGTH_LONG).show();
+                }
+
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
+            adapter = new CategoryDetailsAdator(this, R.layout.detail_items, jsonArray, Details_List);
+            Detail_View_List.setAdapter(adapter);
         }
-        adapter = new CategoryDetailsAdator(this,R.layout.detail_items, jsonArray,Details_List);
-        Detail_View_List.setAdapter(adapter);
-
-
+        else
+        {
+            utils.showNetworkConnectionMsg(Category_DetailsView.this);
+        }
     }
 
     @Override
