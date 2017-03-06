@@ -25,11 +25,10 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 public class Category_DetailsView extends AppCompatActivity {
     List<String> Details_List;
-    CategoryDetailsAdator adapter;
+    CategoryDetailsAdapter adapter;
     ListView Detail_View_List;
     String Title;
     String ID;
@@ -42,7 +41,7 @@ public class Category_DetailsView extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_category__details_view);
+        setContentView(R.layout.activity_category_details_view);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Details_List = new ArrayList<>();
@@ -140,7 +139,7 @@ public class Category_DetailsView extends AppCompatActivity {
             {
                 Toast.makeText(getApplicationContext(), "No data found", Toast.LENGTH_LONG).show();
             }
-        adapter = new CategoryDetailsAdator(Category_DetailsView.this, R.layout.detail_items, jsonArray, Details_List);
+        adapter = new CategoryDetailsAdapter(Category_DetailsView.this, R.layout.detail_items, jsonArray, Details_List);
         Detail_View_List.setAdapter(adapter);
         }
     }

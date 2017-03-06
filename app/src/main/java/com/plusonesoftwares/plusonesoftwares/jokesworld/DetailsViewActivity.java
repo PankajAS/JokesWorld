@@ -30,6 +30,7 @@ public class DetailsViewActivity extends AppCompatActivity {
     ImageButton ImButtonShare;
     ImageButton ImButtonCopy;
     ImageButton ImButtonShareOnWhatsapp;
+    ImageButton ImButtonFavourite;
     Intent intent;
     String jsonArray;
     JSONArray array;
@@ -46,6 +47,8 @@ public class DetailsViewActivity extends AppCompatActivity {
         ImButtonShare = (ImageButton) findViewById(R.id.ImButtonShare);
         ImButtonCopy = (ImageButton) findViewById(R.id.ImButtonCopy);
         ImButtonShareOnWhatsapp = (ImageButton) findViewById(R.id.ImButtonShareOnWhatsapp);
+        ImButtonFavourite = (ImageButton) findViewById(R.id.imButtonFavourite);
+
         intent = getIntent();
         pageTitle = intent.getStringExtra("Category");
 
@@ -103,6 +106,19 @@ public class DetailsViewActivity extends AppCompatActivity {
                     toast.show();
                 }
                 catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        ImButtonFavourite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    setClipboard(getSelectedContent(mPager.getCurrentItem()));
+                    Toast toast = Toast.makeText(getApplicationContext(), "Added to your favourite list" , Toast.LENGTH_SHORT);
+                    toast.show();
+                } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }

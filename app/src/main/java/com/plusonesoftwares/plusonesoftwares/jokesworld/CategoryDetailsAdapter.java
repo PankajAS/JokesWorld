@@ -1,15 +1,11 @@
 package com.plusonesoftwares.plusonesoftwares.jokesworld;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
-import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -22,10 +18,10 @@ import java.util.List;
  * Created by Plus 3 on 28-02-2017.
  */
 
-public class CategoryDetailsAdator extends ArrayAdapter {
+public class CategoryDetailsAdapter extends ArrayAdapter {
     List<String> list;
     JSONArray jarray;
-    public CategoryDetailsAdator(Context context, int resource, JSONArray jarray, List objects) {
+    public CategoryDetailsAdapter(Context context, int resource, JSONArray jarray, List objects) {
         super(context, resource, objects);
         list = objects;
         this.jarray=jarray;
@@ -34,9 +30,9 @@ public class CategoryDetailsAdator extends ArrayAdapter {
     @NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        CategoryDetailsAdator.ViewHolder holder= null;
+        CategoryDetailsAdapter.ViewHolder holder= null;
         if(convertView == null) {
-            holder = new CategoryDetailsAdator.ViewHolder();
+            holder = new CategoryDetailsAdapter.ViewHolder();
             LayoutInflater inflater=LayoutInflater.from(getContext());
             convertView = inflater.inflate(R.layout.detail_items, null ,true);
             holder.selectedCatDetail = (TextView) convertView.findViewById(R.id.detail_title);
@@ -50,7 +46,7 @@ public class CategoryDetailsAdator extends ArrayAdapter {
             }
 
         }else{
-            holder = (CategoryDetailsAdator.ViewHolder) convertView.getTag();
+            holder = (CategoryDetailsAdapter.ViewHolder) convertView.getTag();
         }
         return convertView;
     }
