@@ -38,7 +38,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                     });
                     try {
                         // Sleep for 200 milliseconds.
-                        Thread.sleep(15);
+                        Thread.sleep(20);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }

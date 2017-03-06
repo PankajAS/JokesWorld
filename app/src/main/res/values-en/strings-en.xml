@@ -3,19 +3,11 @@
 
     <!-- Months dropdown list-->
     <string-array name="Fun_Language">
-        <item>Select Language</item>
+        <item>All Language Categories</item>
         <item>English</item>
         <item>Hindi</item>
     </string-array>
 
-    <!-- Months dropdown list-->
-    <string-array name="Fun_Category">
-        <item>Select Category</item>
-        <item>Jokes</item>
-        <item>Funny</item>
-        <item>Shayri</item>
-    </string-array>
-
-    <string name="connectionError">Please check your internet connection!</string>
-
+     <string name="connectionError">Please check your internet connection!</string>
+    <string name="PleaseWait">Please wait loading your data...</string>
 </resources>

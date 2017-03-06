@@ -1,7 +1,9 @@
 package com.plusonesoftwares.plusonesoftwares.jokesworld;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -15,12 +17,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity {
     Spinner spinnerLang, category;
@@ -31,12 +35,13 @@ public class MainActivity extends AppCompatActivity {
     ProgressDialog dialog;
     ListView data;
     CategoryListAdapter adapter;
-    String Url = "http://ssmasti.com/api/Category/GetAll";
-    String getLanguageCategory_Url = "http://ssmasti.com/api/Category/GetCategoryByLanguageId?id=";
+    String getAllCategoryUrl = "http://ssmasti.com/api/Category/GetAll";
+    String getCategoryByLangUrl = "http://ssmasti.com/api/Category/GetCategoryByLanguageId?id=";
 
     Utils utils;
-    JSONArray jsonArray;
-    JSONObject jsonObject;
+    //JSONArray jsonArray;
+    JSONArray array;
+    JSONObject jsonObj;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,44 +56,50 @@ public class MainActivity extends AppCompatActivity {
 
         try {
             if(utils.haveNetworkConnection(getApplicationContext())) {
-                sendRequest(Url);//sending request to fetch category data here
+                new getCategoryList().execute(new URL(getAllCategoryUrl));//start async task to get all categories
             }
             else
             {
                 utils.showNetworkConnectionMsg(MainActivity.this);
             }
-        } catch (JSONException e) {
+        } catch (MalformedURLException e) {
             e.printStackTrace();
         }
 
-        //Spinner change event
-        /*spinnerLang.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spinnerLang.setSelection(0,false);
+        spinnerLang.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 try {
                     if(utils.haveNetworkConnection(getApplicationContext())) {
-                        String langId = spinnerLang.getSelectedItem().equals("Hindi")? "1":"2";
-                        sendRequest(getLanguageCategory_Url + langId);//sending request to fetch category data here by language
+                        if(!spinnerLang.getSelectedItem().equals("All Language Categories")) {
+                            String langId = spinnerLang.getSelectedItem().equals("Hindi") ? "1" : "2";
+                            new getCategoryList().execute(new URL(getCategoryByLangUrl + langId));//sending request to fetch category data here by language
+                        }
+                        else if(spinnerLang.getSelectedItem().equals("All Language Categories"))
+                        {
+                            new getCategoryList().execute(new URL(getAllCategoryUrl));//start async task to get all categories
+                        }
                     }
-                    else
-                    {
+                    else {
                         utils.showNetworkConnectionMsg(MainActivity.this);
                     }
-                } catch (JSONException e) {
+                } catch (MalformedURLException e) {
                     e.printStackTrace();
                 }
             }
+
             @Override
-            public void onNothingSelected(AdapterView<?> arg0) {
-                // TODO Auto-generated method stub
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // your code here
             }
-        });*/
+        });
 
         data.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 try {
-                    JSONObject jobject = jsonArray.getJSONObject(i);
+                    JSONObject jobject = array.getJSONObject(i);
 
                     Intent intent = new Intent(MainActivity.this,Category_DetailsView.class);
                     intent.putExtra("Name",jobject.getString("Category"));
@@ -101,30 +112,62 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void sendRequest(String httpUrl) throws JSONException {
-        try {
-            jsonArray = httpConnection.new FetchData(MainActivity.this).execute(new URL(httpUrl)).get();
+    private HttpURLConnection urlConnection;
+    StringBuilder strbuilderObj = null;
 
-            if(jsonArray !=null && jsonArray.length()>0) {
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    jsonObject = jsonArray.getJSONObject(i);
-                    string.add(jsonObject.getString("ContentCount"));
-                }
-            }
-            else
-            {
-                Toast.makeText(getApplicationContext(), "No data found", Toast.LENGTH_LONG).show();
-            }
-            // dialog.dismiss();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
+    public class getCategoryList extends AsyncTask<URL, Context, JSONArray> {
+        ProgressDialog dialog;
+
+        @Override
+        protected void onPreExecute() {
+            dialog = ProgressDialog.show(MainActivity.this,"","Please wait loading your data...", true);
+            super.onPreExecute();
         }
-        adapter = new CategoryListAdapter(this, R.layout.category_list_items, jsonArray, string);
-        data.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
+
+        @Override
+        protected JSONArray doInBackground(URL... urls) {
+
+            URL url = urls[0];
+            String line;
+            strbuilderObj = new StringBuilder();
+            try {
+                urlConnection = (HttpURLConnection)url.openConnection();
+                BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+
+                while ((line = in.readLine()) != null) {
+                    strbuilderObj.append(line);
+                }
+                array = new JSONArray(strbuilderObj.toString());
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return array;
+        }
+
+        @Override
+        protected void onPostExecute(JSONArray jsonArray) {
+           super.onPostExecute(jsonArray);
+
+            try {
+                if(jsonArray !=null && jsonArray.length()>0) {
+                    string.clear();
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        string.add(jsonArray.getJSONObject(i).getString("ContentCount"));
+                    }
+                }
+                else
+                {
+                    Toast.makeText(getApplicationContext(), "No data found", Toast.LENGTH_LONG).show();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            adapter = new CategoryListAdapter(MainActivity.this, R.layout.category_list_items, array, string);
+            data.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
+            dialog.dismiss();//closing the loading dialog here
+        }
     }
 }
