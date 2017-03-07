@@ -1,5 +1,8 @@
 package com.plusonesoftwares.plusonesoftwares.jokesworld.sqliteDatabase;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by ashoksharma on 06/03/17.
  */
@@ -16,10 +19,10 @@ public class Category {
     public static final String KEY_ContentCount = "ContentCount";
 
     // property help us to keep data
-    public int category_ID;
-    public int language_ID;
+    public String category_ID;
+    public String language_ID;
     public String Category;
     public String Image;
-    public int ContentCount;
+    public String ContentCount;
 
 }

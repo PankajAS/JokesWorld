@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         spinnerLang  = (Spinner)findViewById(R.id.spinnerLang);
         v = (View)findViewById(R.id.include_data);
         data = (ListView)v.findViewById(R.id.Stored_data);
@@ -164,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            adapter = new CategoryListAdapter(MainActivity.this, R.layout.category_list_items, array, string);
+           // adapter = new CategoryListAdapter(MainActivity.this, R.layout.category_list_items, array, string);
             data.setAdapter(adapter);
             adapter.notifyDataSetChanged();
             dialog.dismiss();//closing the loading dialog here

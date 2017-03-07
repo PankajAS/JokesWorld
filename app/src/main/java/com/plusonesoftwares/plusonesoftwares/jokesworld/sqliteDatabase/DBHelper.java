@@ -26,7 +26,7 @@ public class DBHelper  extends SQLiteOpenHelper {
         //All necessary tables you like to create will create here
 
         String CREATE_TABLE_CATEGORY = "CREATE TABLE " + Category.TABLE  + "("
-                + Category.KEY_ID  + " INTEGER PRIMARY KEY AUTOINCREMENT ,"
+                + Category.KEY_ID  + " INTEGER ,"
                 + Category.KEY_languageId + " INTEGER, "
                 + Category.KEY_Category + " TEXT, "
                 + Category.KEY_Image + " TEXT , "
@@ -35,13 +35,13 @@ public class DBHelper  extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_CATEGORY);
 
         String CREATE_TABLE_LANGUAGE = "CREATE TABLE " + Language.TABLE  + "("
-                + Language.KEY_ID  + " INTEGER PRIMARY KEY AUTOINCREMENT ,"
+                + Language.KEY_ID  + " INTEGER ,"
                 + Language.KEY_language + " TEXT )";
 
         db.execSQL(CREATE_TABLE_LANGUAGE);
 
         String CREATE_TABLE_CONTENT = "CREATE TABLE " + Content.TABLE  + "("
-                + Content.KEY_ID  + " INTEGER PRIMARY KEY AUTOINCREMENT ,"
+                + Content.KEY_ID  + " INTEGER ,"
                 + Content.KEY_CategoryId + " INTEGER, "
                 + Content.KEY_Content + " TEXT, "
                 + Content.KEY_CreatedDate + " TEXT , "
@@ -49,6 +49,14 @@ public class DBHelper  extends SQLiteOpenHelper {
 
         db.execSQL(CREATE_TABLE_CONTENT);
 
+        String CREATE_TABLE_FAVOURITE_CONTENT = "CREATE TABLE " + FavouriteContent.TABLE  + "("
+                + FavouriteContent.KEY_ID  + " INTEGER PRIMARY KEY AUTOINCREMENT ,"
+                + FavouriteContent.KEY_CategoryId + " INTEGER, "
+                + FavouriteContent.KEY_Content + " TEXT, "
+                + FavouriteContent.KEY_CreatedDate + " TEXT , "
+                + FavouriteContent.KEY_IsPopular + " INTEGER )";
+
+        db.execSQL(CREATE_TABLE_FAVOURITE_CONTENT);
     }
 
     @Override
@@ -57,7 +65,7 @@ public class DBHelper  extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + Category.TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + Language.TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + Content.TABLE);
-
+        db.execSQL("DROP TABLE IF EXISTS " + FavouriteContent.TABLE);
         // Create tables again
         onCreate(db);
     }

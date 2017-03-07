@@ -15,9 +15,16 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.plusonesoftwares.plusonesoftwares.jokesworld.sqliteDatabase.ContentRepo;
+import com.plusonesoftwares.plusonesoftwares.jokesworld.sqliteDatabase.FavouriteContent;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by ashoksharma on 27/02/17.
  */
@@ -36,12 +43,15 @@ public class DetailsViewActivity extends AppCompatActivity {
     JSONArray array;
     JSONObject jobject;
     String pageTitle;
+    ContentRepo FavContentOperation;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.details_view);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        FavContentOperation = new ContentRepo(getApplicationContext());
+
         mPager = (ViewPager) findViewById(R.id.pager);
         selectedItem = (TextView)findViewById(R.id.txtcontent);
         ImButtonShare = (ImageButton) findViewById(R.id.ImButtonShare);
@@ -114,13 +124,30 @@ public class DetailsViewActivity extends AppCompatActivity {
         ImButtonFavourite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    setClipboard(getSelectedContent(mPager.getCurrentItem()));
-                    Toast toast = Toast.makeText(getApplicationContext(), "Added to your favourite list" , Toast.LENGTH_SHORT);
-                    toast.show();
-                } catch (JSONException e) {
-                    e.printStackTrace();
+
+                List<FavouriteContent> favouriteContentList = new ArrayList<>();
+                FavouriteContent singleContentObj;
+
+//                if(array !=null && array.length()>0) {
+//                    for (int i = 0; i < array.length(); i++) {
+                        try {
+                            singleContentObj = new FavouriteContent();
+                            singleContentObj.content_ID = array.getJSONObject(mPager.getCurrentItem()).getString("ID");
+                            singleContentObj.category_ID = array.getJSONObject(mPager.getCurrentItem()).getString("CategoryID");
+                            singleContentObj.Content = array.getJSONObject(mPager.getCurrentItem()).getString("Content");
+                            singleContentObj.CreatedDate = array.getJSONObject(mPager.getCurrentItem()).getString("CreatedDate");
+                            singleContentObj.IsPopular = array.getJSONObject(mPager.getCurrentItem()).getString("IsPopular");
+                            favouriteContentList.add(singleContentObj);
+                            FavContentOperation.insert_FavouriteContent(favouriteContentList);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+//                        }
+//                    }
+
                 }
+
+                Toast toast = Toast.makeText(getApplicationContext(), "Added to your favourite list" , Toast.LENGTH_SHORT);
+                toast.show();
             }
         });
 

@@ -16,6 +16,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -23,15 +25,15 @@ import java.util.List;
  */
 
 public class CategoryListAdapter extends ArrayAdapter {
-    JSONArray list;
+    ArrayList<HashMap<String, String>> categoryListobj;
     Context context;
-    List<String> badge;
+    //List<String> badge;
 
-    public CategoryListAdapter(Context context, int resource, JSONArray NameID, List<String> string) {
-        super(context, resource, string);
-        list = NameID;
+    public CategoryListAdapter(Context context, int resource, ArrayList<HashMap<String, String>> categoryList, List<String> string) {
+        super(context, resource, categoryList);
+        categoryListobj = categoryList;
         this.context = context;
-        badge=string;
+        //badge=string;
     }
 
     @NonNull
@@ -46,26 +48,15 @@ public class CategoryListAdapter extends ArrayAdapter {
             holder.badge = (TextView) convertView.findViewById(R.id.txtbadge_count);
             holder.category_image = (ImageView) convertView.findViewById(R.id.category_image);
 
-            try {
-                JSONObject jobject = list.getJSONObject(position);
-                holder.category.setText(jobject.getString("Category"));
-                holder.badge.setText(jobject.getString("ContentCount"));
+            holder.category.setText(categoryListobj.get(position).get("category"));
+            holder.badge.setText(categoryListobj.get(position).get("contentcount"));
+            String base64Image = (String) categoryListobj.get(position).get("image");
 
-                String base64Image = (String) jobject.getString("Image");
-                if(base64Image != null && !base64Image.isEmpty()) {
-                    byte[] imageAsBytes = Base64.decode(base64Image.getBytes(), Base64.DEFAULT);
-                    Bitmap image = BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.length);
-                    //piclist.add(image);
-                    holder.category_image.setImageBitmap(image);
-                }else{
-                    //pic = BitmapFactory.decodeResource(getContext().getResources(),
-                      //      R.drawable.profile);
-                }
-
-            } catch (JSONException e) {
-                e.printStackTrace();
+            if(base64Image != null && !base64Image.isEmpty()) {
+                byte[] imageAsBytes = Base64.decode(base64Image.getBytes(), Base64.DEFAULT);
+                Bitmap image = BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.length);
+                holder.category_image.setImageBitmap(image);
             }
-
 
         }else{
             holder = (CategoryListAdapter.ViewHolder) convertView.getTag();
@@ -74,8 +65,7 @@ public class CategoryListAdapter extends ArrayAdapter {
     }
 
  private class ViewHolder{
-     TextView category, badge;
-     ImageView category_image;
-
+         TextView category, badge;
+         ImageView category_image;
     }
 }

@@ -20,34 +20,37 @@ import java.util.List;
  * Created by Plus 3 on 28-02-2017.
  */
 
-public class CategoryDetailsAdapter extends ArrayAdapter {
-    ArrayList<HashMap<String, String>> contentListObj;
-    JSONArray jarray;
+public class FavouriteListAdapter extends ArrayAdapter {
+    ArrayList<HashMap<String, String>> favouriteListObj;
+    //JSONArray jarray;
 
-    public CategoryDetailsAdapter(Context context, int resource, ArrayList<HashMap<String, String>> contentList, List objects) {
+    public FavouriteListAdapter(Context context, int resource, ArrayList<HashMap<String, String>> favouriteList, List objects) {
         super(context, resource, objects);
-        contentListObj = contentList;
-        this.jarray = jarray;
+        favouriteListObj = favouriteList;
     }
 
     @NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        CategoryDetailsAdapter.ViewHolder holder= null;
+        FavouriteListAdapter.ViewHolder holder= null;
         if(convertView == null) {
-            holder = new CategoryDetailsAdapter.ViewHolder();
+            holder = new FavouriteListAdapter.ViewHolder();
             LayoutInflater inflater=LayoutInflater.from(getContext());
             convertView = inflater.inflate(R.layout.detail_items, null ,true);
             holder.selectedCatDetail = (TextView) convertView.findViewById(R.id.detail_title);
 
-            holder.selectedCatDetail.setText(contentListObj.get(position).get("content"));
+            //JSONObject jobject = jarray.getJSONObject(position);
+            //holder.selectedCatDetail.setText(jobject.getString("Content"));
+            holder.selectedCatDetail.setText(favouriteListObj.get(position).get("content"));
 
         }else{
-            holder = (CategoryDetailsAdapter.ViewHolder) convertView.getTag();
+            holder = (FavouriteListAdapter.ViewHolder) convertView.getTag();
         }
         return convertView;
     }
+
     private class ViewHolder{
         TextView selectedCatDetail;
     }
+
 }

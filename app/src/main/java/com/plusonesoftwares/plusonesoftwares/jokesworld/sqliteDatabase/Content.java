@@ -12,16 +12,16 @@ public class Content {
     public static final String TABLE = "tblContent";
 
     // Labels Table Columns names
-    public static final String KEY_ID = "ID";
-    public static final String KEY_CategoryId = "CategoryID";
-    public static final String KEY_Content = "Content";
-    public static final String KEY_CreatedDate = "CreatedDate";
-    public static final String KEY_IsPopular = "IsPopular";
+    public  static final String KEY_ID = "ID";
+    public  static final String KEY_CategoryId = "CategoryID";
+    public  static final String KEY_Content = "Content";
+    public  static final String KEY_CreatedDate = "CreatedDate";
+    public  static final String KEY_IsPopular = "IsPopular";
 
     //property help us to keep data
-    public int content_ID;
-    public int category_ID;
+    public String content_ID;
+    public String category_ID;
     public String Content;
     public String CreatedDate;
-    public boolean IsPopular;
+    public String IsPopular;
 }

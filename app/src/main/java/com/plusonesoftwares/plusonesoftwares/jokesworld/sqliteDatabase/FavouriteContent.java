@@ -17,9 +17,9 @@ public class FavouriteContent {
     public static final String KEY_IsPopular = "IsPopular";
 
     //property help us to keep data
-    public int content_ID;
-    public int category_ID;
+    public String content_ID;
+    public String category_ID;
     public String Content;
     public String CreatedDate;
-    public boolean IsPopular;
+    public String IsPopular;
 }

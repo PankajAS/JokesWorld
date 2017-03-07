@@ -8,7 +8,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.net.LinkAddress;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,9 +38,9 @@ public class ContentRepo {
     public ArrayList<HashMap<String, String>>  getAllLanguage() {
         //Open connection to read only
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        String selectQuery =  "SELECT  " +
+        String selectQuery =  " SELECT  " +
                 Language.KEY_ID + "," +
-                Language.KEY_language + "," +
+                Language.KEY_language +
                 " FROM " + Language.TABLE;
 
         ArrayList<HashMap<String, String>> languageList = new ArrayList<HashMap<String, String>>();
@@ -70,7 +69,8 @@ public class ContentRepo {
         try {
             ContentValues values = new ContentValues();
             for (Category category : list) {
-                values.put(Category.KEY_languageId, category.category_ID);
+                values.put(Category.KEY_ID, category.category_ID);
+                values.put(Category.KEY_languageId, category.language_ID);
                 values.put(Category.KEY_Category, category.Category);
                 values.put(Category.KEY_Image, category.Image);
                 values.put(Category.KEY_ContentCount, category.ContentCount);
@@ -82,21 +82,27 @@ public class ContentRepo {
         }
     }
 
+    public void delete_All_Categories() {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        db.delete(Category.TABLE,null,null);
+        db.close(); // Closing database connection
+    }
+
     public ArrayList<HashMap<String, String>>  getCategoriesList(int languageId) {
         //Open connection to read only
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         String categoryWhereClause = "";
 
         if(languageId > 0)
-            categoryWhereClause = "WHERE " + Category.KEY_languageId + "=" + languageId;
+            categoryWhereClause = " WHERE " + Category.KEY_languageId + " = " + languageId;
 
-        String selectQuery =  "SELECT  " +
+        String selectQuery =  " SELECT  " +
                 Category.KEY_ID + "," +
                 Category.KEY_languageId + "," +
                 Category.KEY_Category + "," +
                 Category.KEY_Image + "," +
-                Category.KEY_ContentCount + "," +
-                " FROM " + Language.TABLE + categoryWhereClause;
+                Category.KEY_ContentCount +
+                " FROM " + Category.TABLE + categoryWhereClause;
 
         //Student student = new Student();
         ArrayList<HashMap<String, String>> categoryList = new ArrayList<HashMap<String, String>>();
@@ -139,6 +145,11 @@ public class ContentRepo {
             db.endTransaction();
         }
     }
+    public void delete_All_Content() {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        db.delete(Content.TABLE,null,null);
+        db.close(); // Closing database connection
+    }
 
     public ArrayList<HashMap<String, String>>  getContentByCategoryId(int categoryId) {
         //Open connection to read only
@@ -151,7 +162,7 @@ public class ContentRepo {
                 Content.KEY_CategoryId + "," +
                 Content.KEY_Content + "," +
                 Content.KEY_CreatedDate + "," +
-                Content.KEY_IsPopular + "," +
+                Content.KEY_IsPopular +
                 " FROM " + Content.TABLE + categoryWhereClause;
 
         //Student student = new Student();
@@ -189,7 +200,7 @@ public class ContentRepo {
                 Content.KEY_CategoryId + "," +
                 Content.KEY_Content + "," +
                 Content.KEY_CreatedDate + "," +
-                Content.KEY_IsPopular + "," +
+                Content.KEY_IsPopular +
                 " FROM " + Content.TABLE + categoryWhereClause;
 
         //Student student = new Student();
@@ -227,7 +238,7 @@ public class ContentRepo {
                 Content.KEY_CategoryId + "," +
                 Content.KEY_Content + "," +
                 Content.KEY_CreatedDate + "," +
-                Content.KEY_IsPopular + "," +
+                Content.KEY_IsPopular +
                 " FROM " + Content.TABLE + categoryWhereClause;
 
         //Student student = new Student();
@@ -276,13 +287,13 @@ public class ContentRepo {
         //Open connection to read only
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
-        String selectQuery =  "SELECT  " +
-                Content.KEY_ID + "," +
-                Content.KEY_CategoryId + "," +
-                Content.KEY_Content + "," +
-                Content.KEY_CreatedDate + "," +
-                Content.KEY_IsPopular + "," +
-                " FROM " + Content.TABLE;
+        String selectQuery =  " SELECT  " +
+                FavouriteContent.KEY_ID + "," +
+                FavouriteContent.KEY_CategoryId + "," +
+                FavouriteContent.KEY_Content + "," +
+                FavouriteContent.KEY_CreatedDate + "," +
+                FavouriteContent.KEY_IsPopular +
+                " FROM " + FavouriteContent.TABLE;
 
         //Student student = new Student();
         ArrayList<HashMap<String, String>> contentList = new ArrayList<HashMap<String, String>>();

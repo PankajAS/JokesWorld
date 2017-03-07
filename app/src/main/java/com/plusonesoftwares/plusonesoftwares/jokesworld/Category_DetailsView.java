@@ -12,6 +12,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.plusonesoftwares.plusonesoftwares.jokesworld.sqliteDatabase.ContentRepo;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,6 +39,8 @@ public class Category_DetailsView extends AppCompatActivity {
     JSONObject jobject;
     JSONArray array;
     Utils utils;
+    ContentRepo contentOperation;
+    ArrayList<HashMap<String, String>> contentListObj;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +55,10 @@ public class Category_DetailsView extends AppCompatActivity {
         ID = intent.getStringExtra("ID");
         setTitle(Title);
         utils = new Utils();
+
+        contentOperation = new ContentRepo(getApplicationContext());
+        contentListObj = contentOperation.getContentByCategoryId(Integer.valueOf(ID));
+        reloadListView(contentListObj);
 
         Detail_View_List.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -68,21 +76,26 @@ public class Category_DetailsView extends AppCompatActivity {
             }
         });
 
-        if(utils.haveNetworkConnection(getApplicationContext())) {
-            try {
-                new getCategoryDetails().execute(new URL(Url + ID));
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
-        }
-        else
-        {
-            utils.showNetworkConnectionMsg(Category_DetailsView.this);
-        }
+//        if(utils.haveNetworkConnection(getApplicationContext())) {
+//            try {
+//                new getCategoryDetails().execute(new URL(Url + ID));
+//            } catch (MalformedURLException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        else
+//        {
+//            utils.showNetworkConnectionMsg(Category_DetailsView.this);
+//        }
     }
 
+    private void reloadListView(ArrayList<HashMap<String, String>> contentList) {
+        adapter = new CategoryDetailsAdapter(Category_DetailsView.this, R.layout.detail_items, contentList, contentList);
+        Detail_View_List.setAdapter(adapter);
+        Detail_View_List.deferNotifyDataSetChanged();
+    }
 
-    private HttpURLConnection urlConnection;
+    /*private HttpURLConnection urlConnection;
     StringBuilder sb = null;
 
     public class getCategoryDetails extends AsyncTask<URL, Context, JSONArray> {
@@ -94,7 +107,7 @@ public class Category_DetailsView extends AppCompatActivity {
 
         @Override
         protected void onPreExecute() {
-            dialog = ProgressDialog.show(Category_DetailsView.this, "","Please wait loading your data...", true);
+           // dialog = ProgressDialog.show(Category_DetailsView.this, "","Please wait loading your data...", true);
             super.onPreExecute();
         }
 
@@ -122,7 +135,7 @@ public class Category_DetailsView extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(JSONArray jsonArray) {
-            dialog.dismiss();
+            //dialog.dismiss();
             super.onPostExecute(jsonArray);
 
             if(jsonArray !=null && jsonArray.length()>0) {
@@ -139,10 +152,12 @@ public class Category_DetailsView extends AppCompatActivity {
             {
                 Toast.makeText(getApplicationContext(), "No data found", Toast.LENGTH_LONG).show();
             }
-        adapter = new CategoryDetailsAdapter(Category_DetailsView.this, R.layout.detail_items, jsonArray, Details_List);
-        Detail_View_List.setAdapter(adapter);
+
+            adapter = new CategoryDetailsAdapter(Category_DetailsView.this, R.layout.detail_items, jsonArray, Details_List);
+            Detail_View_List.setAdapter(adapter);
+            Detail_View_List.deferNotifyDataSetChanged();
         }
-    }
+    }*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
