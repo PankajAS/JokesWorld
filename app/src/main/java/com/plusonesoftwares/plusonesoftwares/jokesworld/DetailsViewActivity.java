@@ -4,7 +4,11 @@ import com.plusonesoftwares.plusonesoftwares.jokesworld.sqliteDatabase.ContentRe
 import com.plusonesoftwares.plusonesoftwares.jokesworld.sqliteDatabase.FavouriteContent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -42,7 +46,7 @@ public class DetailsViewActivity extends AppCompatActivity {
     String pageTitle;
     ContentRepo FavContentOperation;
     String DataIndex;
-
+    String contentID;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,11 +76,7 @@ public class DetailsViewActivity extends AppCompatActivity {
         mPager.setCurrentItem(Integer.parseInt(DataIndex));//selecting the selected tab as CHAT TAB
         setTitle(pageTitle);
 
-        try {
-            setFavouriteButtonState();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        setFavouriteButtonState();
 
         ImButtonShare.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,11 +124,20 @@ public class DetailsViewActivity extends AppCompatActivity {
         });
 
         ImButtonFavourite.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
             @Override
             public void onClick(View v) {
                // {"ispopular":"true","creationdate":"2017-03-04T08:34:31.247","content":"हम दिलफेक आशिक़ है, हर काम में कमाल कर दे,\r\nजो वादा करे वो पूरा हर हाल में कर दे,\r\nक्या जरुरत है जानू को लिपस्टिक लगाने की,\r\nहम चूम-चूम के ही होंठ उसके लाल कर दे !!","categoryid":"1","id":"60"}
-                List<FavouriteContent> favouriteContentList = new ArrayList<>();
-                FavouriteContent singleContentObj;
+                if(FavContentOperation.isAlreadyFavourite(Integer.parseInt(contentID)))
+                {
+                    FavContentOperation.un_Favourite(Integer.parseInt(contentID));
+                    ImButtonFavourite.setBackground(getResources().getDrawable(R.drawable.list_radious));
+                    Toast toast = Toast.makeText(getApplicationContext(), "Removed from your favourite list", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+                else {
+                    List<FavouriteContent> favouriteContentList = new ArrayList<>();
+                    FavouriteContent singleContentObj;
                     try {
                         singleContentObj = new FavouriteContent();
                         singleContentObj.content_ID = array.getJSONObject(mPager.getCurrentItem()).getString("id");
@@ -140,27 +149,28 @@ public class DetailsViewActivity extends AppCompatActivity {
                         FavContentOperation.insert_FavouriteContent(favouriteContentList);
                     } catch (JSONException e) {
                         e.printStackTrace();
-
+                    }
+                    ImButtonFavourite.setBackgroundColor(Color.GREEN);
+                    Toast toast = Toast.makeText(getApplicationContext(), "Added to your favourite list", Toast.LENGTH_SHORT);
+                    toast.show();
                 }
-
-                Toast toast = Toast.makeText(getApplicationContext(), "Added to your favourite list" , Toast.LENGTH_SHORT);
-                toast.show();
             }
         });
-
-//        Toast toast = Toast.makeText(getApplicationContext(), "Scroll left and rifgt to see more " + pageTitle , Toast.LENGTH_LONG);
-//        toast.show();
     }
 
-    private void setFavouriteButtonState() throws JSONException {
+    private void setFavouriteButtonState()
+    {
+        try {
+            jobject = array.getJSONObject(Integer.parseInt(DataIndex));
+            contentID = (String) jobject.get("id");
 
-//        jobject = array.getJSONObject(Integer.parseInt(DataIndex));
-//        String contentID = (String) jobject.get("id");
-//
-//        if(FavContentOperation.isAlreadyFavourite(Integer.parseInt(contentID)))
-//        {
-//
-//        }
+            if(FavContentOperation.isAlreadyFavourite(Integer.parseInt(contentID)))
+            {
+                ImButtonFavourite.setBackgroundColor(Color.GREEN);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private String getSelectedContent(int index) throws JSONException {

@@ -50,7 +50,7 @@ public class DBHelper  extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_CONTENT);
 
         String CREATE_TABLE_FAVOURITE_CONTENT = "CREATE TABLE " + FavouriteContent.TABLE  + "("
-                + FavouriteContent.KEY_ID  + " INTEGER PRIMARY KEY AUTOINCREMENT ,"
+                + FavouriteContent.KEY_ID  + " INTEGER,"
                 + FavouriteContent.KEY_CategoryId + " INTEGER, "
                 + FavouriteContent.KEY_Content + " TEXT, "
                 + FavouriteContent.KEY_CreatedDate + " TEXT , "

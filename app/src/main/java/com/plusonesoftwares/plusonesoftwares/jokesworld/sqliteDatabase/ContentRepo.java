@@ -134,6 +134,7 @@ public class ContentRepo {
         try {
             ContentValues values = new ContentValues();
             for (Content content : list) {
+                values.put(Content.KEY_ID, content.content_ID);
                 values.put(Content.KEY_CategoryId, content.category_ID);
                 values.put(Content.KEY_Content, content.Content);
                 values.put(Content.KEY_CreatedDate, content.CreatedDate);
@@ -274,6 +275,7 @@ public class ContentRepo {
         try {
             ContentValues values = new ContentValues();
             for (FavouriteContent favouritecontent : list) {
+                values.put(FavouriteContent.KEY_ID, favouritecontent.content_ID);
                 values.put(FavouriteContent.KEY_CategoryId, favouritecontent.category_ID);
                 values.put(FavouriteContent.KEY_Content, favouritecontent.Content);
                 values.put(FavouriteContent.KEY_CreatedDate, favouritecontent.CreatedDate);
@@ -285,22 +287,26 @@ public class ContentRepo {
             db.endTransaction();
         }
     }
-    public boolean isAlreadyFavourite(int categoryId) {
+
+    public void un_Favourite(int Id) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        db.delete(FavouriteContent.TABLE, FavouriteContent.KEY_ID + " = ?", new String[] {String.valueOf(Id)});
+    }
+    public boolean isAlreadyFavourite(int Id) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
-        Cursor mCursor = db.rawQuery("SELECT * FROM " + FavouriteContent.TABLE + " WHERE    ID=?", new String[]{String.valueOf(categoryId)});
+        Cursor cursor = null;
+        String sql ="SELECT ID FROM "+ FavouriteContent.TABLE +" WHERE ID = " + Id;
+        cursor = db.rawQuery(sql,null);
 
-        if (mCursor != null)
-        {
-            return true;
-            /* record exist */
-        }
-        else
-        {
+        if(cursor.getCount() <= 0){
+            cursor.close();
             return false;
-            /* record not exist */
         }
+        cursor.close();
+        return true;
     }
+
     public ArrayList<HashMap<String, String>>  getFavouriteContent() {
         //Open connection to read only
         SQLiteDatabase db = dbHelper.getReadableDatabase();

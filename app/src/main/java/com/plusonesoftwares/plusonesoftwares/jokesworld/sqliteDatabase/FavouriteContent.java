@@ -22,4 +22,5 @@ public class FavouriteContent {
     public String Content;
     public String CreatedDate;
     public String IsPopular;
+
 }
