@@ -8,7 +8,7 @@
         <item>Hindi</item>
     </string-array>
 
-    <string name="connectionError">Please check your internet connection!</string>
+    <string name="connectionError">Check your internet connection for latest data!</string>
     <string name="PleaseWait">Please wait loading your data...</string>
 
     <!-- TODO: Remove or change this placeholder text -->

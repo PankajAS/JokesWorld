@@ -238,7 +238,9 @@ public class ContentRepo {
                 Content.KEY_Content + "," +
                 Content.KEY_CreatedDate + "," +
                 Content.KEY_IsPopular +
-                " FROM " + Content.TABLE;
+                " FROM " + Content.TABLE + " ORDER BY "  + Content.KEY_CreatedDate + " DESC LIMIT 30";
+
+        //ORDER BY date_column DESC LIMIT 1
 
         //Student student = new Student();
         ArrayList<HashMap<String, String>> contentList = new ArrayList<HashMap<String, String>>();
@@ -283,7 +285,22 @@ public class ContentRepo {
             db.endTransaction();
         }
     }
+    public boolean isAlreadyFavourite(int categoryId) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
 
+        Cursor mCursor = db.rawQuery("SELECT * FROM " + FavouriteContent.TABLE + " WHERE    ID=?", new String[]{String.valueOf(categoryId)});
+
+        if (mCursor != null)
+        {
+            return true;
+            /* record exist */
+        }
+        else
+        {
+            return false;
+            /* record not exist */
+        }
+    }
     public ArrayList<HashMap<String, String>>  getFavouriteContent() {
         //Open connection to read only
         SQLiteDatabase db = dbHelper.getReadableDatabase();

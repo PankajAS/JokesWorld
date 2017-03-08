@@ -1,5 +1,7 @@
 package com.plusonesoftwares.plusonesoftwares.jokesworld;
 
+import com.plusonesoftwares.plusonesoftwares.jokesworld.sqliteDatabase.ContentRepo;
+import com.plusonesoftwares.plusonesoftwares.jokesworld.sqliteDatabase.FavouriteContent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,14 +16,9 @@ import android.widget.ImageButton;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.plusonesoftwares.plusonesoftwares.jokesworld.sqliteDatabase.ContentRepo;
-import com.plusonesoftwares.plusonesoftwares.jokesworld.sqliteDatabase.FavouriteContent;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,6 +41,7 @@ public class DetailsViewActivity extends AppCompatActivity {
     JSONObject jobject;
     String pageTitle;
     ContentRepo FavContentOperation;
+    String DataIndex;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -65,16 +63,20 @@ public class DetailsViewActivity extends AppCompatActivity {
         jsonArray = intent.getStringExtra("Content");
         try {
             array = new JSONArray(jsonArray);
-
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
         mPagerAdapter = new ScreenSlidePagerAdapter(this);
         mPager.setAdapter(mPagerAdapter);
-        String index = intent.getStringExtra("SelectedIndex");
-        mPager.setCurrentItem(Integer.parseInt(index));//selecting the selected tab as CHAT TAB
+        DataIndex = intent.getStringExtra("SelectedIndex");
+        mPager.setCurrentItem(Integer.parseInt(DataIndex));//selecting the selected tab as CHAT TAB
         setTitle(pageTitle);
+
+        try {
+            setFavouriteButtonState();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         ImButtonShare.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,25 +126,20 @@ public class DetailsViewActivity extends AppCompatActivity {
         ImButtonFavourite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+               // {"ispopular":"true","creationdate":"2017-03-04T08:34:31.247","content":"हम दिलफेक आशिक़ है, हर काम में कमाल कर दे,\r\nजो वादा करे वो पूरा हर हाल में कर दे,\r\nक्या जरुरत है जानू को लिपस्टिक लगाने की,\r\nहम चूम-चूम के ही होंठ उसके लाल कर दे !!","categoryid":"1","id":"60"}
                 List<FavouriteContent> favouriteContentList = new ArrayList<>();
                 FavouriteContent singleContentObj;
-
-//                if(array !=null && array.length()>0) {
-//                    for (int i = 0; i < array.length(); i++) {
-                        try {
-                            singleContentObj = new FavouriteContent();
-                            singleContentObj.content_ID = array.getJSONObject(mPager.getCurrentItem()).getString("ID");
-                            singleContentObj.category_ID = array.getJSONObject(mPager.getCurrentItem()).getString("CategoryID");
-                            singleContentObj.Content = array.getJSONObject(mPager.getCurrentItem()).getString("Content");
-                            singleContentObj.CreatedDate = array.getJSONObject(mPager.getCurrentItem()).getString("CreatedDate");
-                            singleContentObj.IsPopular = array.getJSONObject(mPager.getCurrentItem()).getString("IsPopular");
-                            favouriteContentList.add(singleContentObj);
-                            FavContentOperation.insert_FavouriteContent(favouriteContentList);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-//                        }
-//                    }
+                    try {
+                        singleContentObj = new FavouriteContent();
+                        singleContentObj.content_ID = array.getJSONObject(mPager.getCurrentItem()).getString("id");
+                        singleContentObj.category_ID = array.getJSONObject(mPager.getCurrentItem()).getString("categoryid");
+                        singleContentObj.Content = array.getJSONObject(mPager.getCurrentItem()).getString("content");
+                        singleContentObj.CreatedDate = array.getJSONObject(mPager.getCurrentItem()).getString("creationdate");
+                        singleContentObj.IsPopular = array.getJSONObject(mPager.getCurrentItem()).getString("ispopular");
+                        favouriteContentList.add(singleContentObj);
+                        FavContentOperation.insert_FavouriteContent(favouriteContentList);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
 
                 }
 
@@ -155,9 +152,20 @@ public class DetailsViewActivity extends AppCompatActivity {
 //        toast.show();
     }
 
+    private void setFavouriteButtonState() throws JSONException {
+
+//        jobject = array.getJSONObject(Integer.parseInt(DataIndex));
+//        String contentID = (String) jobject.get("id");
+//
+//        if(FavContentOperation.isAlreadyFavourite(Integer.parseInt(contentID)))
+//        {
+//
+//        }
+    }
+
     private String getSelectedContent(int index) throws JSONException {
         jobject = array.getJSONObject(index);
-        return jobject.getString("Content");
+        return jobject.getString("content");
     }
 
     private void setClipboard(String text) {
@@ -225,6 +233,7 @@ public class DetailsViewActivity extends AppCompatActivity {
             container.removeView((ScrollView)object);
         }
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();

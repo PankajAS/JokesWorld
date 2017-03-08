@@ -17,6 +17,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import android.app.Activity;
 import android.content.SharedPreferences;
@@ -25,6 +28,8 @@ import android.widget.EditText;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.widget.Toast;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -92,5 +97,20 @@ public class Utils {
                     haveConnectedMobile = true;
         }
         return haveConnectedWifi || haveConnectedMobile;
+    }
+
+    public JSONArray convertHashMapArrayListToJsonArray(ArrayList<HashMap<String, String>> dataMap)
+    {
+
+        List<JSONObject> jsonObj = new ArrayList<JSONObject>();
+
+        for(HashMap<String, String> data : dataMap) {
+            JSONObject obj = new JSONObject(data);
+            jsonObj.add(obj);
+        }
+
+        JSONArray contentJsonArray = new JSONArray(jsonObj);
+
+        return contentJsonArray;
     }
 }

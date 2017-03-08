@@ -13,7 +13,7 @@
     tools:context="com.plusonesoftwares.plusonesoftwares.jokesworld.SplashScreenActivity"
     android:background="@color/colorPrimary">
 
-    <ProgressBar
+   <!-- <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
@@ -27,7 +27,16 @@
         android:layout_margin="20dp"
         android:background="@android:color/white"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true"/> -->
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="@android:style/Widget.ProgressBar.Large"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        />
 
     <TextView
         android:id="@+id/textView1"
@@ -42,10 +51,12 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Your text"
+        android:text="Loading your data please wait.."
         android:typeface="serif"
         android:layout_below="@+id/progressBar"
-        android:textColor="@android:color/white" />
+        android:textColor="@android:color/white"
+        android:layout_marginTop="10dp"
+        android:textSize="18sp" />
 
     <ImageView
         android:layout_width="150dp"

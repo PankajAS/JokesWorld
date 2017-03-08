@@ -53,7 +53,7 @@ public class CategoryFragment extends Fragment {
         utils = new Utils();
         categoryOperation = new ContentRepo(getContext());
 
-        categoryListObj = categoryOperation.getCategoriesList(0);
+        categoryListObj = categoryOperation.getCategoriesList(1);
         reloadListView(categoryListObj);
 
         /*try {
@@ -68,11 +68,11 @@ public class CategoryFragment extends Fragment {
             e.printStackTrace();
         }*/
 
-        spinnerLang.setSelection(0,false);
+        spinnerLang.setSelection(1 ,false);
         spinnerLang.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                if(utils.haveNetworkConnection(getContext())) {
+               // if(utils.haveNetworkConnection(getContext())) {
                     if(!spinnerLang.getSelectedItem().equals("All Language Categories")) {
                         int langId = spinnerLang.getSelectedItem().equals("Hindi") ? 1 : 2;
                         categoryListObj = categoryOperation.getCategoriesList(langId);
@@ -85,10 +85,10 @@ public class CategoryFragment extends Fragment {
                         reloadListView(categoryListObj);
                         //new getCategoryList().execute(new URL(getAllCategoryUrl));//start async task to get all categories
                     }
-                }
-                else {
-                    utils.showNetworkConnectionMsg(getActivity());
-                }
+//                }
+//                else {
+//                    utils.showNetworkConnectionMsg(getActivity());
+//                }
             }
 
             @Override

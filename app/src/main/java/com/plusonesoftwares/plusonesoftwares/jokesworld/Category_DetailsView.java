@@ -63,9 +63,9 @@ public class Category_DetailsView extends AppCompatActivity {
         Detail_View_List.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                // JSONObject jobject = array.getJSONObject(i);
+                array = utils.convertHashMapArrayListToJsonArray(contentListObj);
                 Intent intent = new Intent(Category_DetailsView.this,DetailsViewActivity.class);
-                intent.putExtra("Content", contentListObj.toString());
+                intent.putExtra("Content", array.toString());
                 intent.putExtra("Category",Title);
                 intent.putExtra("SelectedIndex", String.valueOf(i));
                 startActivity(intent);

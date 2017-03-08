@@ -72,6 +72,8 @@ public class SplashScreenActivity extends AppCompatActivity {
             }
             else
             {
+                Intent intent = new Intent(SplashScreenActivity.this, MainTabViewActivity.class);
+                startActivity(intent);
                 utils.showNetworkConnectionMsg(SplashScreenActivity.this);
             }
         } catch (MalformedURLException e) {
@@ -79,34 +81,34 @@ public class SplashScreenActivity extends AppCompatActivity {
         }
 
 
-        // Start long running operation in a background thread
-        new Thread(new Runnable() {
-            public void run() {
-                while (progressStatus < 100) {
-                    progressStatus += 1;
-                    // Update the progress bar and display the
-                    //current value in the text view
-                    handler.post(new Runnable() {
-                        public void run() {
-                            progressBar.setProgress(progressStatus);
-                            textView.setText(progressStatus+"/"+progressBar.getMax());
-                        }
-                    });
-                    try {
-                        // Sleep for 200 milliseconds.
-                        Thread.sleep(100);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-                if (progressStatus>=100)
-                {
-                    Intent intent = new Intent(SplashScreenActivity.this, MainTabViewActivity.class);
-                    startActivity(intent);
-                    //overridePendingTransition(R.transition.move, R.transition.stay);
-                }
-            }
-        }).start();
+//        // Start long running operation in a background thread
+//        new Thread(new Runnable() {
+//            public void run() {
+//                while (progressStatus < 100) {
+//                    progressStatus += 1;
+//                    // Update the progress bar and display the
+//                    //current value in the text view
+//                    handler.post(new Runnable() {
+//                        public void run() {
+//                            progressBar.setProgress(progressStatus);
+//                            textView.setText(progressStatus+"/"+progressBar.getMax());
+//                        }
+//                    });
+//                    try {
+//                        // Sleep for 200 milliseconds.
+//                        Thread.sleep(100);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+////                if (progressStatus>=100)
+////                {
+////                    Intent intent = new Intent(SplashScreenActivity.this, MainTabViewActivity.class);
+////                    startActivity(intent);
+////                    //overridePendingTransition(R.transition.move, R.transition.stay);
+////                }
+//            }
+//        }).start();
     }
 
     //************ Get all Categories and insert it into sqlite db for offline availability ************
@@ -170,6 +172,12 @@ public class SplashScreenActivity extends AppCompatActivity {
                         }
                     }
                     categoryOperation.insert_Categories(categoryList);
+
+                    //progressBar.setVisibility(View.GONE);
+                }
+                else
+                {
+                    utils.showNetworkConnectionMsg(SplashScreenActivity.this);
                 }
             }
         }
@@ -234,8 +242,15 @@ public class SplashScreenActivity extends AppCompatActivity {
                     }
                 }
                 contentOperation.insert_Content(contentList);
+
+                Intent intent = new Intent(SplashScreenActivity.this, MainTabViewActivity.class);
+                startActivity(intent);
             }
-        }
+            else
+            {
+                utils.showNetworkConnectionMsg(SplashScreenActivity.this);
+            }
+       }
     }
 }
 
