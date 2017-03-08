@@ -151,8 +151,8 @@ public class DetailsViewActivity extends AppCompatActivity {
             }
         });
 
-        Toast toast = Toast.makeText(getApplicationContext(), "Scroll left and rifgt to see more " + pageTitle , Toast.LENGTH_LONG);
-        toast.show();
+//        Toast toast = Toast.makeText(getApplicationContext(), "Scroll left and rifgt to see more " + pageTitle , Toast.LENGTH_LONG);
+//        toast.show();
     }
 
     private String getSelectedContent(int index) throws JSONException {

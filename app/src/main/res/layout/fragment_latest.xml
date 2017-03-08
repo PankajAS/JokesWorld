@@ -4,10 +4,22 @@
     android:layout_height="match_parent"
     tools:context="com.plusonesoftwares.plusonesoftwares.jokesworld.TabFragments.LatestFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="false"
+        android:id="@+id/relative2"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="50dp">
+
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/selected_cat_list"
+            android:id="@+id/include_data"
+            />
+    </RelativeLayout>
 
 </FrameLayout>

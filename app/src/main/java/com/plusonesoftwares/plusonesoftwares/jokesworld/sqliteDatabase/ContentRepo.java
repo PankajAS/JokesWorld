@@ -193,21 +193,19 @@ public class ContentRepo {
         //Open connection to read only
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
-        String  categoryWhereClause = " WHERE " + Content.KEY_IsPopular + " = " + 1;
-
         String selectQuery =  "SELECT  " +
                 Content.KEY_ID + "," +
                 Content.KEY_CategoryId + "," +
                 Content.KEY_Content + "," +
                 Content.KEY_CreatedDate + "," +
                 Content.KEY_IsPopular +
-                " FROM " + Content.TABLE + categoryWhereClause;
-
-        //Student student = new Student();
+                " FROM " + Content.TABLE + " WHERE " + Content.KEY_IsPopular + " = ?";
         ArrayList<HashMap<String, String>> contentList = new ArrayList<HashMap<String, String>>();
 
-        Cursor cursor = db.rawQuery(selectQuery, null);
-        // looping through all rows and adding to list
+        String[] params = new String[]{ "true" };
+        Cursor cursor = db.rawQuery(selectQuery, params);
+
+        //looping through all rows and adding to list
 
         if (cursor.moveToFirst()) {
             do {
@@ -231,7 +229,8 @@ public class ContentRepo {
         //Open connection to read only
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
-        String  categoryWhereClause = " WHERE " + Content.KEY_CreatedDate + " = " + 1;
+        //String  categoryWhereClause = " WHERE " + Content.KEY_CreatedDate + " = " + 1;
+       // String  categoryWhereClause = "";
 
         String selectQuery =  "SELECT  " +
                 Content.KEY_ID + "," +
@@ -239,12 +238,14 @@ public class ContentRepo {
                 Content.KEY_Content + "," +
                 Content.KEY_CreatedDate + "," +
                 Content.KEY_IsPopular +
-                " FROM " + Content.TABLE + categoryWhereClause;
+                " FROM " + Content.TABLE;
 
         //Student student = new Student();
         ArrayList<HashMap<String, String>> contentList = new ArrayList<HashMap<String, String>>();
 
-        Cursor cursor = db.rawQuery(selectQuery, null);
+        Cursor cursor = db.rawQuery(selectQuery,null);
+        //Cursor cursor = db.query("sku_table", columns, "owner=?", new String[] { owner }, null, null, null);
+       // db.query("sku_table", columns, "owner=?", new String[] { owner }, null, null, null);
         // looping through all rows and adding to list
 
         if (cursor.moveToFirst()) {

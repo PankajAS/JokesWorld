@@ -24,16 +24,10 @@ public class FavouriteFragment extends Fragment {
     ArrayList<HashMap<String, String>> favListObj;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View favouriteListView  = inflater.inflate(R.layout.fragment_favourite, container, false);
-        favouriteList = (ListView)favouriteListView.findViewById(R.id.Stored_data);
+        View favouriteView  = inflater.inflate(R.layout.fragment_favourite, container, false);
+        favouriteList = (ListView)favouriteView.findViewById(R.id.Stored_data);
 
         favListOperation = new ContentRepo(getContext());
         favListObj = favListOperation.getFavouriteContent();
@@ -42,6 +36,6 @@ public class FavouriteFragment extends Fragment {
         favouriteList.setAdapter(adapter);
         adapter.notifyDataSetChanged();
 
-        return favouriteListView;
+        return favouriteView;
     }
 }
