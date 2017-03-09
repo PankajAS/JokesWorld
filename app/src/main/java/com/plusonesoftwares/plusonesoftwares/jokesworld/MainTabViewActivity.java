@@ -1,9 +1,14 @@
 package com.plusonesoftwares.plusonesoftwares.jokesworld;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 public class MainTabViewActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener {
 
@@ -15,6 +20,8 @@ public class MainTabViewActivity extends AppCompatActivity implements TabLayout.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_tab_view);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         utils = new Utils();
 
         tabLayout = (TabLayout)findViewById(R.id.tabLayout);
@@ -52,4 +59,41 @@ public class MainTabViewActivity extends AppCompatActivity implements TabLayout.
     public void onTabReselected(TabLayout.Tab tab) {
 
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menuoptions, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.menu_Share:
+                Intent shareIntent = new Intent();
+                shareIntent.setAction(Intent.ACTION_SEND);
+                //shareIntent.putExtra(Intent.EXTRA_TEXT, getSelectedContent(mPager.getCurrentItem()));
+                shareIntent.setType("text/plain");
+                startActivity(Intent.createChooser(shareIntent, "Choose sharing method"));
+                return true;
+            case R.id.menu_RateUS:
+                final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
+                try {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+                } catch (android.content.ActivityNotFoundException anfe) {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+                }
+                return true;
+            case R.id.menu_AboutUS:
+                Intent intent = new Intent(MainTabViewActivity.this, AboutUs.class);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
+    }
+
 }

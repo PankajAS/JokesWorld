@@ -16,6 +16,7 @@ public class Category {
     public static final String KEY_languageId = "LanguageID";
     public static final String KEY_Category = "Category";
     public static final String KEY_Image = "Image";
+    public  static final String KEY_CreatedDate = "CreatedDate";
     public static final String KEY_ContentCount = "ContentCount";
 
     // property help us to keep data
@@ -23,6 +24,7 @@ public class Category {
     public String language_ID;
     public String Category;
     public String Image;
+    public String CreatedDate;
     public String ContentCount;
 
 }

@@ -52,7 +52,6 @@ public class SplashScreenActivity extends AppCompatActivity {
     String getAllContentUrl = "http://ssmasti.com/api/Content/GetAll";
 
     Utils utils;
-    //JSONArray jsonArray;
     JSONArray array;
     JSONObject jsonObj;
     @Override
@@ -79,36 +78,6 @@ public class SplashScreenActivity extends AppCompatActivity {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
-
-
-//        // Start long running operation in a background thread
-//        new Thread(new Runnable() {
-//            public void run() {
-//                while (progressStatus < 100) {
-//                    progressStatus += 1;
-//                    // Update the progress bar and display the
-//                    //current value in the text view
-//                    handler.post(new Runnable() {
-//                        public void run() {
-//                            progressBar.setProgress(progressStatus);
-//                            textView.setText(progressStatus+"/"+progressBar.getMax());
-//                        }
-//                    });
-//                    try {
-//                        // Sleep for 200 milliseconds.
-//                        Thread.sleep(100);
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-////                if (progressStatus>=100)
-////                {
-////                    Intent intent = new Intent(SplashScreenActivity.this, MainTabViewActivity.class);
-////                    startActivity(intent);
-////                    //overridePendingTransition(R.transition.move, R.transition.stay);
-////                }
-//            }
-//        }).start();
     }
 
     //************ Get all Categories and insert it into sqlite db for offline availability ************
@@ -151,8 +120,6 @@ public class SplashScreenActivity extends AppCompatActivity {
             super.onPostExecute(jsonArray);
 
             ContentRepo categoryOperation = new ContentRepo(getApplicationContext());
-            //Beforing updating the data need to clear all previous data
-            categoryOperation.delete_All_Categories();
 
             List<Category> categoryList = new ArrayList<>();
 
@@ -171,9 +138,10 @@ public class SplashScreenActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
                     }
-                    categoryOperation.insert_Categories(categoryList);
+                    //Beforing updating the data need to clear all previous data
+                    categoryOperation.delete_All_Categories();
 
-                    //progressBar.setVisibility(View.GONE);
+                    categoryOperation.insert_Categories(categoryList);
                 }
                 else
                 {
@@ -183,7 +151,6 @@ public class SplashScreenActivity extends AppCompatActivity {
         }
 
     //************ Get all content and insert it into sqlite db for offline availability ************
-
     private HttpURLConnection urlContentConnection;
     StringBuilder contentStringBuilder = null;
 
@@ -195,7 +162,6 @@ public class SplashScreenActivity extends AppCompatActivity {
 
         @Override
         protected JSONArray doInBackground(URL... urls) {
-
             URL url = urls[0];
             String line;
             contentStringBuilder = new StringBuilder();
@@ -220,10 +186,6 @@ public class SplashScreenActivity extends AppCompatActivity {
             super.onPostExecute(jsonArray);
 
             ContentRepo contentOperation = new ContentRepo(getApplicationContext());
-
-            //Beforing updating the data need to clear all previous data
-            contentOperation.delete_All_Content();
-
             List<Content> contentList = new ArrayList<>();
 
             Content singleCatObj;
@@ -241,6 +203,9 @@ public class SplashScreenActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }
+                //Beforing updating the data need to clear all previous data
+                contentOperation.delete_All_Content();
+
                 contentOperation.insert_Content(contentList);
 
                 Intent intent = new Intent(SplashScreenActivity.this, MainTabViewActivity.class);

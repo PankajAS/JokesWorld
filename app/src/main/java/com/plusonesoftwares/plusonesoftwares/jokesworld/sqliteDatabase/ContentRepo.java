@@ -73,6 +73,7 @@ public class ContentRepo {
                 values.put(Category.KEY_languageId, category.language_ID);
                 values.put(Category.KEY_Category, category.Category);
                 values.put(Category.KEY_Image, category.Image);
+                values.put(Category.KEY_CreatedDate, category.CreatedDate);
                 values.put(Category.KEY_ContentCount, category.ContentCount);
                 db.insert(Category.TABLE, null, values);
             }
@@ -101,8 +102,9 @@ public class ContentRepo {
                 Category.KEY_languageId + "," +
                 Category.KEY_Category + "," +
                 Category.KEY_Image + "," +
+                Category.KEY_CreatedDate + "," +
                 Category.KEY_ContentCount +
-                " FROM " + Category.TABLE + categoryWhereClause;
+                " FROM " + Category.TABLE + categoryWhereClause + " ORDER BY "  + Category.KEY_CreatedDate + " DESC ";
 
         //Student student = new Student();
         ArrayList<HashMap<String, String>> categoryList = new ArrayList<HashMap<String, String>>();
@@ -117,6 +119,7 @@ public class ContentRepo {
                 category.put("languageid", cursor.getString(cursor.getColumnIndex(Category.KEY_languageId)));
                 category.put("category", cursor.getString(cursor.getColumnIndex(Category.KEY_Category)));
                 category.put("image", cursor.getString(cursor.getColumnIndex(Category.KEY_Image)));
+                category.put("creationdate", cursor.getString(cursor.getColumnIndex(Category.KEY_CreatedDate)));
                 category.put("contentcount", cursor.getString(cursor.getColumnIndex(Category.KEY_ContentCount)));
                 categoryList.add(category);
 
@@ -164,7 +167,8 @@ public class ContentRepo {
                 Content.KEY_Content + "," +
                 Content.KEY_CreatedDate + "," +
                 Content.KEY_IsPopular +
-                " FROM " + Content.TABLE + categoryWhereClause;
+                " FROM " + Content.TABLE + categoryWhereClause + " ORDER BY "  + Content.KEY_CreatedDate + " DESC ";
+
 
         //Student student = new Student();
         ArrayList<HashMap<String, String>> contentList = new ArrayList<HashMap<String, String>>();
@@ -200,7 +204,7 @@ public class ContentRepo {
                 Content.KEY_Content + "," +
                 Content.KEY_CreatedDate + "," +
                 Content.KEY_IsPopular +
-                " FROM " + Content.TABLE + " WHERE " + Content.KEY_IsPopular + " = ?";
+                " FROM " + Content.TABLE + " WHERE " + Content.KEY_IsPopular + " = ? " + " ORDER BY "  + Content.KEY_CreatedDate + " DESC ";
         ArrayList<HashMap<String, String>> contentList = new ArrayList<HashMap<String, String>>();
 
         String[] params = new String[]{ "true" };
@@ -230,9 +234,6 @@ public class ContentRepo {
         //Open connection to read only
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
-        //String  categoryWhereClause = " WHERE " + Content.KEY_CreatedDate + " = " + 1;
-       // String  categoryWhereClause = "";
-
         String selectQuery =  "SELECT  " +
                 Content.KEY_ID + "," +
                 Content.KEY_CategoryId + "," +
@@ -241,15 +242,9 @@ public class ContentRepo {
                 Content.KEY_IsPopular +
                 " FROM " + Content.TABLE + " ORDER BY "  + Content.KEY_CreatedDate + " DESC LIMIT 30";
 
-        //ORDER BY date_column DESC LIMIT 1
-
-        //Student student = new Student();
         ArrayList<HashMap<String, String>> contentList = new ArrayList<HashMap<String, String>>();
 
         Cursor cursor = db.rawQuery(selectQuery,null);
-        //Cursor cursor = db.query("sku_table", columns, "owner=?", new String[] { owner }, null, null, null);
-       // db.query("sku_table", columns, "owner=?", new String[] { owner }, null, null, null);
-        // looping through all rows and adding to list
 
         if (cursor.moveToFirst()) {
             do {
@@ -296,7 +291,7 @@ public class ContentRepo {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
         Cursor cursor = null;
-        String sql ="SELECT ID FROM "+ FavouriteContent.TABLE +" WHERE ID = " + Id;
+        String sql = " SELECT ID FROM "+ FavouriteContent.TABLE +" WHERE ID = " + Id;
         cursor = db.rawQuery(sql,null);
 
         if(cursor.getCount() <= 0){
@@ -317,13 +312,11 @@ public class ContentRepo {
                 FavouriteContent.KEY_Content + "," +
                 FavouriteContent.KEY_CreatedDate + "," +
                 FavouriteContent.KEY_IsPopular +
-                " FROM " + FavouriteContent.TABLE;
+                " FROM " + FavouriteContent.TABLE + " ORDER BY "  + Content.KEY_CreatedDate + " DESC ";
 
-        //Student student = new Student();
         ArrayList<HashMap<String, String>> contentList = new ArrayList<HashMap<String, String>>();
 
         Cursor cursor = db.rawQuery(selectQuery, null);
-        // looping through all rows and adding to list
 
         if (cursor.moveToFirst()) {
             do {

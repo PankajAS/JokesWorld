@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_about_us"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.plusonesoftwares.plusonesoftwares.jokesworld.AboutUs">
+
+    <TextView
+        android:text="Best Collection of Sher o Shayri and Jokes, with moral story. you will get in many languages. example: hindi, english, Bengali, Urdu, And Many More. Daily Updated New Collection. We Have 1000000+ Collection.  Salient features of this app are:   1. Collection of various shayari and jokes, story    2. Share it with your friends through Whatsapp, Text message, Facebook or Twitter etc.    3. Search using text    5. User interactive and simple design"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/textView2"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="18sp" />
+</RelativeLayout>

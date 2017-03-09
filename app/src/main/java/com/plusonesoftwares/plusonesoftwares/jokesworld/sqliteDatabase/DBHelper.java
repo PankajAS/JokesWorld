@@ -30,6 +30,7 @@ public class DBHelper  extends SQLiteOpenHelper {
                 + Category.KEY_languageId + " INTEGER, "
                 + Category.KEY_Category + " TEXT, "
                 + Category.KEY_Image + " TEXT , "
+                + Category.KEY_CreatedDate + " TEXT , "
                 + Category.KEY_ContentCount + " INTEGER )";
 
         db.execSQL(CREATE_TABLE_CATEGORY);

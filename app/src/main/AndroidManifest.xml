@@ -31,7 +31,8 @@
         <activity
             android:name=".Category_DetailsView"
             android:screenOrientation="portrait" />
-        <activity android:name=".MainTabViewActivity"></activity>
+        <activity android:name=".MainTabViewActivity" />
+        <activity android:name=".AboutUs"></activity>
     </application>
 
 </manifest>
