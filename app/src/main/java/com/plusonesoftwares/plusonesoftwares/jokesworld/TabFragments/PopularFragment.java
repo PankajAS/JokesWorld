@@ -32,9 +32,6 @@ public class PopularFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        //return inflater.inflate(R.layout.fragment_popular, container, false);
-
-        // Inflate the layout for this fragment
         View popularView = inflater.inflate(R.layout.fragment_popular, container, false);
 
         popularDataList = (ListView)popularView.findViewById(R.id.Stored_data);
@@ -45,7 +42,6 @@ public class PopularFragment extends Fragment {
         adapter = new FavouriteListAdapter(getContext(), R.layout.category_list_items, popularListObj, popularListObj);
         popularDataList.setAdapter(adapter);
         adapter.notifyDataSetChanged();
-
 
         popularDataList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

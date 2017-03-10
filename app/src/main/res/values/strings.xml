@@ -1,11 +1,33 @@
 <resources>
     <string name="app_name">S S Masti</string> <!--Shero Shayri &amp; Masti -->
 
+    <!-- [
+    {
+        "ID": 1,
+        "Language": "हिंदी"
+    },
+    {
+        "ID": 2,
+        "Language": "English"
+    },
+    {
+        "ID": 3,
+        "Language": "বাংলা"
+    },
+    {
+        "ID": 5,
+        "Language": "اُردُو"
+    }
+    ]-->
+
     <!-- Months dropdown list-->
     <string-array name="Fun_Language">
         <item>All Language Categories</item>
+        <item>हिंदी</item>
         <item>English</item>
-        <item>Hindi</item>
+        <item>বাংলা</item>
+        <item>اُردُو</item>
+
     </string-array>
 
     <string name="connectionError">Check your internet connection for latest data!</string>

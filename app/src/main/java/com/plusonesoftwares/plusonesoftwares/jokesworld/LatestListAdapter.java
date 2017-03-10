@@ -18,7 +18,6 @@ import java.util.List;
 
 public class LatestListAdapter extends ArrayAdapter {
     ArrayList<HashMap<String, String>> latestListObj;
-    //JSONArray jarray;
 
     public LatestListAdapter(Context context, int resource, ArrayList<HashMap<String, String>> latestList, List objects) {
         super(context, resource, objects);

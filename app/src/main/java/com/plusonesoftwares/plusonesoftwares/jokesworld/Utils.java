@@ -1,36 +1,16 @@
 package com.plusonesoftwares.plusonesoftwares.jokesworld;
 
-/**
- * Created by ashoksharma on 03/03/17.
- */
-
-import android.Manifest;
-import android.content.pm.PackageManager;
-import android.content.res.Resources;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.telephony.TelephonyManager;
-import android.util.DisplayMetrics;
 import android.content.Context;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import android.app.Activity;
 import android.content.SharedPreferences;
-import android.widget.CheckBox;
-import android.widget.EditText;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.widget.Toast;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 /**

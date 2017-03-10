@@ -27,21 +27,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    Spinner spinnerLang, category;
+    Spinner spinnerLang;
     List<String> string;
-    ArrayAdapter<String> adapter1;
     View v;
     HttpConnection httpConnection;
-    ProgressDialog dialog;
     ListView data;
     CategoryListAdapter adapter;
     String getAllCategoryUrl = "http://ssmasti.com/api/Category/GetAll";
     String getCategoryByLangUrl = "http://ssmasti.com/api/Category/GetCategoryByLanguageId?id=";
 
     Utils utils;
-    //JSONArray jsonArray;
     JSONArray array;
-    JSONObject jsonObj;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -165,7 +161,6 @@ public class MainActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-           // adapter = new CategoryListAdapter(MainActivity.this, R.layout.category_list_items, array, string);
             data.setAdapter(adapter);
             adapter.notifyDataSetChanged();
             dialog.dismiss();//closing the loading dialog here

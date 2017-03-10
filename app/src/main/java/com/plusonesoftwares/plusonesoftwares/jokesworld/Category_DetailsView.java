@@ -34,9 +34,6 @@ public class Category_DetailsView extends AppCompatActivity {
     ListView Detail_View_List;
     String Title;
     String ID;
-    String Url = "http://ssmasti.com/api/Content/GetContentByCategoryId?id=";
-    JSONArray jsonArray;
-    JSONObject jobject;
     JSONArray array;
     Utils utils;
     ContentRepo contentOperation;
@@ -49,7 +46,7 @@ public class Category_DetailsView extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Details_List = new ArrayList<>();
-        Detail_View_List = (ListView)findViewById(R.id.detail_list);
+        Detail_View_List = (ListView) findViewById(R.id.detail_list);
         Intent intent = getIntent();
         Title = intent.getStringExtra("Name");
         ID = intent.getStringExtra("ID");
@@ -57,103 +54,26 @@ public class Category_DetailsView extends AppCompatActivity {
         utils = new Utils();
 
         contentOperation = new ContentRepo(getApplicationContext());
-        contentListObj = contentOperation.getContentByCategoryId(Integer.valueOf(ID));
+        contentListObj = contentOperation.getContentByCategoryId(ID);
         reloadListView(contentListObj);
 
         Detail_View_List.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 array = utils.convertHashMapArrayListToJsonArray(contentListObj);
-                Intent intent = new Intent(Category_DetailsView.this,DetailsViewActivity.class);
+                Intent intent = new Intent(Category_DetailsView.this, DetailsViewActivity.class);
                 intent.putExtra("Content", array.toString());
-                intent.putExtra("Category",Title);
+                intent.putExtra("Category", Title);
                 intent.putExtra("SelectedIndex", String.valueOf(i));
                 startActivity(intent);
             }
         });
-
-//        if(utils.haveNetworkConnection(getApplicationContext())) {
-//            try {
-//                new getCategoryDetails().execute(new URL(Url + ID));
-//            } catch (MalformedURLException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//        else
-//        {
-//            utils.showNetworkConnectionMsg(Category_DetailsView.this);
-//        }
     }
-
     private void reloadListView(ArrayList<HashMap<String, String>> contentList) {
         adapter = new CategoryDetailsAdapter(Category_DetailsView.this, R.layout.detail_items, contentList, contentList);
         Detail_View_List.setAdapter(adapter);
         Detail_View_List.deferNotifyDataSetChanged();
     }
-
-    /*private HttpURLConnection urlConnection;
-    StringBuilder sb = null;
-
-    public class getCategoryDetails extends AsyncTask<URL, Context, JSONArray> {
-
-        private Context context;
-        List<String> list = new ArrayList<>();
-        HashMap<String, String> contentId = new HashMap<>();
-        ProgressDialog dialog;
-
-        @Override
-        protected void onPreExecute() {
-           // dialog = ProgressDialog.show(Category_DetailsView.this, "","Please wait loading your data...", true);
-            super.onPreExecute();
-        }
-
-        @Override
-        protected JSONArray doInBackground(URL... urls) {
-            URL url = urls[0];
-            String line;
-            String c;
-            sb = new StringBuilder();
-            try {
-                urlConnection = (HttpURLConnection)url.openConnection();
-                BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-
-                while ((line = in.readLine()) != null) {
-                    sb.append(line);
-                }
-                array = new JSONArray(sb.toString());
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            return array;
-        }
-
-        @Override
-        protected void onPostExecute(JSONArray jsonArray) {
-            //dialog.dismiss();
-            super.onPostExecute(jsonArray);
-
-            if(jsonArray !=null && jsonArray.length()>0) {
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    try {
-                        jobject = jsonArray.getJSONObject(i);
-                        Details_List.add(jobject.getString("ID"));
-                    } catch (JSONException e1) {
-                        e1.printStackTrace();
-                    }
-                }
-            }
-            else
-            {
-                Toast.makeText(getApplicationContext(), "No data found", Toast.LENGTH_LONG).show();
-            }
-
-            adapter = new CategoryDetailsAdapter(Category_DetailsView.this, R.layout.detail_items, jsonArray, Details_List);
-            Detail_View_List.setAdapter(adapter);
-            Detail_View_List.deferNotifyDataSetChanged();
-        }
-    }*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

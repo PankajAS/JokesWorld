@@ -22,7 +22,6 @@ import java.util.List;
 
 public class FavouriteListAdapter extends ArrayAdapter {
     ArrayList<HashMap<String, String>> favouriteListObj;
-    //JSONArray jarray;
 
     public FavouriteListAdapter(Context context, int resource, ArrayList<HashMap<String, String>> favouriteList, List objects) {
         super(context, resource, objects);
@@ -39,8 +38,6 @@ public class FavouriteListAdapter extends ArrayAdapter {
             convertView = inflater.inflate(R.layout.detail_items, null ,true);
             holder.selectedCatDetail = (TextView) convertView.findViewById(R.id.detail_title);
 
-            //JSONObject jobject = jarray.getJSONObject(position);
-            //holder.selectedCatDetail.setText(jobject.getString("Content"));
             holder.selectedCatDetail.setText(favouriteListObj.get(position).get("content"));
 
         }else{

@@ -53,7 +53,7 @@ public class CategoryFragment extends Fragment {
         utils = new Utils();
         categoryOperation = new ContentRepo(getContext());
 
-        categoryListObj = categoryOperation.getCategoriesList(1);
+        categoryListObj = categoryOperation.getCategoriesList("1");//Fetching data here for english category
         reloadListView(categoryListObj);
 
         /*try {
@@ -72,23 +72,26 @@ public class CategoryFragment extends Fragment {
         spinnerLang.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-               // if(utils.haveNetworkConnection(getContext())) {
-                    if(!spinnerLang.getSelectedItem().equals("All Language Categories")) {
-                        int langId = spinnerLang.getSelectedItem().equals("Hindi") ? 1 : 2;
-                        categoryListObj = categoryOperation.getCategoriesList(langId);
-                        reloadListView(categoryListObj);
-                        //new getCategoryList().execute(new URL(getCategoryByLangUrl + langId));//sending request to fetch category data here by language
-                    }
-                    else if(spinnerLang.getSelectedItem().equals("All Language Categories"))
-                    {
-                        categoryListObj = categoryOperation.getCategoriesList(0);
-                        reloadListView(categoryListObj);
-                        //new getCategoryList().execute(new URL(getAllCategoryUrl));//start async task to get all categories
-                    }
-//                }
-//                else {
-//                    utils.showNetworkConnectionMsg(getActivity());
-//                }
+
+                categoryListObj = categoryOperation.getCategoriesList(getLangId((String) spinnerLang.getSelectedItem()));
+                reloadListView(categoryListObj);
+//               // if(utils.haveNetworkConnection(getContext())) {
+//                    if(!spinnerLang.getSelectedItem().equals("All Language Categories")) {
+//                        int langId = spinnerLang.getSelectedItem().equals("Hindi") ? 1 : 2;
+//                        categoryListObj = categoryOperation.getCategoriesList(langId);
+//                        reloadListView(categoryListObj);
+//                        //new getCategoryList().execute(new URL(getCategoryByLangUrl + langId));//sending request to fetch category data here by language
+//                    }
+//                    else if(spinnerLang.getSelectedItem().equals("All Language Categories"))
+//                    {
+//                        categoryListObj = categoryOperation.getCategoriesList(0);
+//                        reloadListView(categoryListObj);
+//                        //new getCategoryList().execute(new URL(getAllCategoryUrl));//start async task to get all categories
+//                    }
+////                }
+////                else {
+////                    utils.showNetworkConnectionMsg(getActivity());
+////                }
             }
 
             @Override
@@ -114,6 +117,40 @@ public class CategoryFragment extends Fragment {
             }
         });
         return categoryView;
+    }
+
+    private String getLangId(String SelectedLan)
+    {
+
+       /*[
+        {
+            "ID": 1,
+                "Language": "हिंदी"
+        },
+        {
+            "ID": 2,
+                "Language": "English"
+        },
+        {
+            "ID": 3,
+                "Language": "বাংলা"
+        },
+        {
+            "ID": 5,
+                "Language": "اُردُو"
+        }
+        ]*/
+
+        if(SelectedLan.equals("हिंदी"))
+           return "1";
+        if(SelectedLan.equals("English"))
+           return "2";
+        if(SelectedLan.equals("বাংলা"))
+           return "3";
+        if(SelectedLan.equals("اُردُو"))
+           return "5";
+
+        return "0";
     }
 
     private void reloadListView(ArrayList<HashMap<String, String>> categoryList) {

@@ -89,13 +89,13 @@ public class ContentRepo {
         db.close(); // Closing database connection
     }
 
-    public ArrayList<HashMap<String, String>>  getCategoriesList(int languageId) {
+    public ArrayList<HashMap<String, String>>  getCategoriesList(String languageId) {
         //Open connection to read only
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         String categoryWhereClause = "";
 
-        if(languageId > 0)
-            categoryWhereClause = " WHERE " + Category.KEY_languageId + " = " + languageId;
+        if(!languageId.equals("0"))
+            categoryWhereClause = " WHERE " + Category.KEY_languageId + " = ? ";
 
         String selectQuery =  " SELECT  " +
                 Category.KEY_ID + "," +
@@ -104,12 +104,21 @@ public class ContentRepo {
                 Category.KEY_Image + "," +
                 Category.KEY_CreatedDate + "," +
                 Category.KEY_ContentCount +
-                " FROM " + Category.TABLE + categoryWhereClause + " ORDER BY "  + Category.KEY_CreatedDate + " DESC ";
+                " FROM " + Category.TABLE + categoryWhereClause  + " ORDER BY "  + Category.KEY_CreatedDate + " DESC ";
+
+        Cursor cursor;
+
+        if(!languageId.equals("0")) {
+            String[] params = new String[]{languageId};
+            cursor = db.rawQuery(selectQuery, params);
+        }else {
+            cursor = db.rawQuery(selectQuery, null);
+        }
 
         //Student student = new Student();
         ArrayList<HashMap<String, String>> categoryList = new ArrayList<HashMap<String, String>>();
 
-        Cursor cursor = db.rawQuery(selectQuery, null);
+
         // looping through all rows and adding to list
 
         if (cursor.moveToFirst()) {
@@ -155,11 +164,11 @@ public class ContentRepo {
         db.close(); // Closing database connection
     }
 
-    public ArrayList<HashMap<String, String>>  getContentByCategoryId(int categoryId) {
+    public ArrayList<HashMap<String, String>>  getContentByCategoryId(String categoryId) {
         //Open connection to read only
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
-        String  categoryWhereClause = " WHERE " + Content.KEY_CategoryId + " = " + categoryId;
+        String  categoryWhereClause = " WHERE " + Content.KEY_CategoryId + " = ? " + categoryId;
 
         String selectQuery =  "SELECT  " +
                 Content.KEY_ID + "," +
@@ -167,14 +176,11 @@ public class ContentRepo {
                 Content.KEY_Content + "," +
                 Content.KEY_CreatedDate + "," +
                 Content.KEY_IsPopular +
-                " FROM " + Content.TABLE + categoryWhereClause + " ORDER BY "  + Content.KEY_CreatedDate + " DESC ";
+                " FROM " + Content.TABLE + " WHERE " + Content.KEY_CategoryId + " = ? " + " ORDER BY "  + Content.KEY_CreatedDate + " DESC ";
 
-
-        //Student student = new Student();
+        String[] params = new String[]{ categoryId };
+        Cursor cursor = db.rawQuery(selectQuery, params);
         ArrayList<HashMap<String, String>> contentList = new ArrayList<HashMap<String, String>>();
-
-        Cursor cursor = db.rawQuery(selectQuery, null);
-        // looping through all rows and adding to list
 
         if (cursor.moveToFirst()) {
             do {

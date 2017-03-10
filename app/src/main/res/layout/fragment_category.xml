@@ -18,8 +18,19 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:alpha="0.8"
-        android:layout_marginTop="40dp" />
+        android:layout_marginTop="40dp"
+        android:layout_span="1"/>
 
+    <TextView
+        android:text="New Contents Updates Daily So Visit Regular"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView3"
+        android:layout_marginTop="90dp"
+        android:textStyle="bold"
+        android:textSize="16dp"
+        android:textColor="@android:color/white"
+        android:layout_marginLeft="15dp" />
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -29,7 +40,7 @@
         android:layout_alignParentTop="false"
         android:id="@+id/relative2"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="100dp">
+        android:layout_marginTop="120dp">
 
         <include
             android:layout_width="match_parent"

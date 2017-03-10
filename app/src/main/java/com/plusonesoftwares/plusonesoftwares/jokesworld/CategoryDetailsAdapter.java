@@ -22,12 +22,10 @@ import java.util.List;
 
 public class CategoryDetailsAdapter extends ArrayAdapter {
     ArrayList<HashMap<String, String>> contentListObj;
-    JSONArray jarray;
 
     public CategoryDetailsAdapter(Context context, int resource, ArrayList<HashMap<String, String>> contentList, List objects) {
         super(context, resource, objects);
         contentListObj = contentList;
-        this.jarray = jarray;
     }
 
     @NonNull

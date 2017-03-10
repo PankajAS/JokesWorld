@@ -41,7 +41,6 @@ public class HttpConnection {
 
         @Override
         protected void onPreExecute() {
-            //dialog = ProgressDialog.show(context, "","Loading...", true);
             super.onPreExecute();
         }
 
@@ -69,7 +68,6 @@ public class HttpConnection {
 
         @Override
         protected void onPostExecute(JSONArray strings) {
-            //dialog.dismiss();
             super.onPostExecute(strings);
         }
     }

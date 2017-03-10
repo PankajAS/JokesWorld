@@ -27,13 +27,11 @@ import java.util.List;
 public class CategoryListAdapter extends ArrayAdapter {
     ArrayList<HashMap<String, String>> categoryListobj;
     Context context;
-    //List<String> badge;
 
     public CategoryListAdapter(Context context, int resource, ArrayList<HashMap<String, String>> categoryList, List<String> string) {
         super(context, resource, categoryList);
         categoryListobj = categoryList;
         this.context = context;
-        //badge=string;
     }
 
     @NonNull

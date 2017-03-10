@@ -74,7 +74,6 @@ public class MainTabViewActivity extends AppCompatActivity implements TabLayout.
             case R.id.menu_Share:
                 Intent shareIntent = new Intent();
                 shareIntent.setAction(Intent.ACTION_SEND);
-                //shareIntent.putExtra(Intent.EXTRA_TEXT, getSelectedContent(mPager.getCurrentItem()));
                 shareIntent.setType("text/plain");
                 startActivity(Intent.createChooser(shareIntent, "Choose sharing method"));
                 return true;
