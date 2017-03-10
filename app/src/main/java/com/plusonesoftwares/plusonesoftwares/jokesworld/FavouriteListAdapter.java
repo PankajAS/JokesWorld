@@ -37,12 +37,12 @@ public class FavouriteListAdapter extends ArrayAdapter {
             LayoutInflater inflater=LayoutInflater.from(getContext());
             convertView = inflater.inflate(R.layout.detail_items, null ,true);
             holder.selectedCatDetail = (TextView) convertView.findViewById(R.id.detail_title);
-
-            holder.selectedCatDetail.setText(favouriteListObj.get(position).get("content"));
-
+            convertView.setTag(holder);
         }else{
             holder = (FavouriteListAdapter.ViewHolder) convertView.getTag();
         }
+        holder.selectedCatDetail.setText(favouriteListObj.get(position).get("content"));
+
         return convertView;
     }
 

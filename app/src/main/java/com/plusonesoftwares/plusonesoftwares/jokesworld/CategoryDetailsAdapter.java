@@ -33,7 +33,9 @@ public class CategoryDetailsAdapter extends ArrayAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         System.out.println("getView " + position + " " + convertView);
+
         ViewHolder holder = null;
+
         if (convertView == null) {
             LayoutInflater inflater=LayoutInflater.from(getContext());
             convertView = inflater.inflate(R.layout.detail_items, null);

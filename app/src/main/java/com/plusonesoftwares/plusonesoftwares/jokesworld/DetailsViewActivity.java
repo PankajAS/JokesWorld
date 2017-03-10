@@ -247,20 +247,16 @@ public class DetailsViewActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
+        final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
         switch (item.getItemId()) {
             case R.id.menu_Share:
-                try {
                     Intent shareIntent = new Intent();
                     shareIntent.setAction(Intent.ACTION_SEND);
-                    shareIntent.putExtra(Intent.EXTRA_TEXT, getSelectedContent(mPager.getCurrentItem()));
+                    shareIntent.putExtra(Intent.EXTRA_TEXT, "For best Sahayri & Jokes please download : "+"https://play.google.com/store/apps/details?id=" + appPackageName);
                     shareIntent.setType("text/plain");
                     startActivity(Intent.createChooser(shareIntent, "Choose sharing method"));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
                 return true;
             case R.id.menu_RateUS:
-                final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
                 try {
                     startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
                 } catch (android.content.ActivityNotFoundException anfe) {

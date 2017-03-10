@@ -81,16 +81,24 @@ public class Category_DetailsView extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menuoptionscommon, menu);
+        inflater.inflate(R.menu.menuoptions, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
+        final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
+        // Handle item selection
         switch (item.getItemId()) {
+            case R.id.menu_Share:
+                Intent shareIntent = new Intent();
+                shareIntent.setAction(Intent.ACTION_SEND);
+                shareIntent.putExtra(Intent.EXTRA_TEXT, "For best Sahayri & Jokes please download : "+"https://play.google.com/store/apps/details?id=" + appPackageName);
+                shareIntent.setType("text/plain");
+                startActivity(Intent.createChooser(shareIntent, "Choose sharing method"));
+                return true;
             case R.id.menu_RateUS:
-                final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
                 try {
                     startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
                 } catch (android.content.ActivityNotFoundException anfe) {

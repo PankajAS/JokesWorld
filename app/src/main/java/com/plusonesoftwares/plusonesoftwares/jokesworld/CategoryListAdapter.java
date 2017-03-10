@@ -45,20 +45,22 @@ public class CategoryListAdapter extends ArrayAdapter {
             holder.category = (TextView) convertView.findViewById(R.id.Title);
             holder.badge = (TextView) convertView.findViewById(R.id.txtbadge_count);
             holder.category_image = (ImageView) convertView.findViewById(R.id.category_image);
-
-            holder.category.setText(categoryListobj.get(position).get("category"));
-            holder.badge.setText(categoryListobj.get(position).get("contentcount"));
-            String base64Image = (String) categoryListobj.get(position).get("image");
-
-            if(base64Image != null && !base64Image.isEmpty()) {
-                byte[] imageAsBytes = Base64.decode(base64Image.getBytes(), Base64.DEFAULT);
-                Bitmap image = BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.length);
-                holder.category_image.setImageBitmap(image);
-            }
+            convertView.setTag(holder);
 
         }else{
             holder = (CategoryListAdapter.ViewHolder) convertView.getTag();
         }
+
+        holder.category.setText(categoryListobj.get(position).get("category"));
+        holder.badge.setText(categoryListobj.get(position).get("contentcount"));
+        String base64Image = (String) categoryListobj.get(position).get("image");
+
+        if(base64Image != null && !base64Image.isEmpty()) {
+            byte[] imageAsBytes = Base64.decode(base64Image.getBytes(), Base64.DEFAULT);
+            Bitmap image = BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.length);
+            holder.category_image.setImageBitmap(image);
+        }
+
         return convertView;
     }
 
