@@ -22,6 +22,7 @@ public class Utils {
 
     public static final String MyPREFERENCES = "MyPrefs";
     public static final String categoryList = "categoryList";
+    public String selectedContent = "";
 
     SharedPreferences sharedpreferences;
 

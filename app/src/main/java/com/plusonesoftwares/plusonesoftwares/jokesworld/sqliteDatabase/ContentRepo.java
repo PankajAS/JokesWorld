@@ -168,7 +168,7 @@ public class ContentRepo {
         //Open connection to read only
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
-        String  categoryWhereClause = " WHERE " + Content.KEY_CategoryId + " = ? " + categoryId;
+        //String  categoryWhereClause = " WHERE " + Content.KEY_CategoryId + " = ? " + categoryId;
 
         String selectQuery =  "SELECT  " +
                 Content.KEY_ID + "," +
@@ -246,7 +246,7 @@ public class ContentRepo {
                 Content.KEY_Content + "," +
                 Content.KEY_CreatedDate + "," +
                 Content.KEY_IsPopular +
-                " FROM " + Content.TABLE + " ORDER BY "  + Content.KEY_CreatedDate + " DESC LIMIT 30";
+                " FROM " + Content.TABLE + " ORDER BY "  + Content.KEY_CreatedDate + " DESC LIMIT 50";
 
         ArrayList<HashMap<String, String>> contentList = new ArrayList<HashMap<String, String>>();
 

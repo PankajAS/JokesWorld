@@ -53,45 +53,15 @@ public class CategoryFragment extends Fragment {
         utils = new Utils();
         categoryOperation = new ContentRepo(getContext());
 
-        categoryListObj = categoryOperation.getCategoriesList("1");//Fetching data here for english category
+        categoryListObj = categoryOperation.getCategoriesList("2");//Fetching data here for english category
         reloadListView(categoryListObj);
 
-        /*try {
-            if(utils.haveNetworkConnection(getContext())) {
-                new getCategoryList().execute(new URL(getAllCategoryUrl));//start async task to get all categories
-            }
-            else
-            {
-                utils.showNetworkConnectionMsg(getActivity());
-            }
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }*/
-
-        spinnerLang.setSelection(1 ,false);
+        spinnerLang.setSelection(2 ,false);
         spinnerLang.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-
                 categoryListObj = categoryOperation.getCategoriesList(getLangId((String) spinnerLang.getSelectedItem()));
                 reloadListView(categoryListObj);
-//               // if(utils.haveNetworkConnection(getContext())) {
-//                    if(!spinnerLang.getSelectedItem().equals("All Language Categories")) {
-//                        int langId = spinnerLang.getSelectedItem().equals("Hindi") ? 1 : 2;
-//                        categoryListObj = categoryOperation.getCategoriesList(langId);
-//                        reloadListView(categoryListObj);
-//                        //new getCategoryList().execute(new URL(getCategoryByLangUrl + langId));//sending request to fetch category data here by language
-//                    }
-//                    else if(spinnerLang.getSelectedItem().equals("All Language Categories"))
-//                    {
-//                        categoryListObj = categoryOperation.getCategoriesList(0);
-//                        reloadListView(categoryListObj);
-//                        //new getCategoryList().execute(new URL(getAllCategoryUrl));//start async task to get all categories
-//                    }
-////                }
-////                else {
-////                    utils.showNetworkConnectionMsg(getActivity());
-////                }
             }
 
             @Override
@@ -103,13 +73,8 @@ public class CategoryFragment extends Fragment {
         data.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                //JSONObject jobject = array.getJSONObject(i);
 
                 Intent intent = new Intent(getContext(),Category_DetailsView.class);
-
-//              intent.putExtra("Name",jobject.getString("Category"));
-//              intent.putExtra("ID",jobject.getString("ID"));
-
                 intent.putExtra("Name",categoryListObj.get(i).get("category"));
                 intent.putExtra("ID",categoryListObj.get(i).get("id"));
 
@@ -158,61 +123,4 @@ public class CategoryFragment extends Fragment {
         data.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }
-
-    /*private HttpURLConnection urlConnection;
-    StringBuilder strbuilderObj = null;
-
-    public class getCategoryList extends AsyncTask<URL, Context, JSONArray> {
-        ProgressDialog dialog;
-
-        @Override
-        protected void onPreExecute() {
-            dialog = ProgressDialog.show(getContext(), "", "Please wait loading your data...", true);
-            super.onPreExecute();
-        }
-
-        @Override
-        protected JSONArray doInBackground(URL... urls) {
-
-            URL url = urls[0];
-            String line;
-            strbuilderObj = new StringBuilder();
-            try {
-                urlConnection = (HttpURLConnection) url.openConnection();
-                BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-
-                while ((line = in.readLine()) != null) {
-                    strbuilderObj.append(line);
-                }
-                array = new JSONArray(strbuilderObj.toString());
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            return array;
-        }
-
-        @Override
-        protected void onPostExecute(JSONArray jsonArray) {
-            super.onPostExecute(jsonArray);
-
-            try {
-                if (jsonArray != null && jsonArray.length() > 0) {
-                    string.clear();
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        string.add(jsonArray.getJSONObject(i).getString("ContentCount"));
-                    }
-                } else {
-                    Toast.makeText(getContext(), "No data found", Toast.LENGTH_LONG).show();
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            adapter = new CategoryListAdapter(getContext(), R.layout.category_list_items, categoryOperation.getCategoriesList(0), string);
-            data.setAdapter(adapter);
-            adapter.notifyDataSetChanged();
-            dialog.dismiss();//closing the loading dialog here
-        }
-    }*/
 }

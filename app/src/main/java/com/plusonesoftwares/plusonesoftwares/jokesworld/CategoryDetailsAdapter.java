@@ -2,10 +2,12 @@ package com.plusonesoftwares.plusonesoftwares.jokesworld;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -28,23 +30,24 @@ public class CategoryDetailsAdapter extends ArrayAdapter {
         contentListObj = contentList;
     }
 
-    @NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        CategoryDetailsAdapter.ViewHolder holder= null;
-        if(convertView == null) {
-            holder = new CategoryDetailsAdapter.ViewHolder();
+        System.out.println("getView " + position + " " + convertView);
+        ViewHolder holder = null;
+        if (convertView == null) {
             LayoutInflater inflater=LayoutInflater.from(getContext());
-            convertView = inflater.inflate(R.layout.detail_items, null ,true);
-            holder.selectedCatDetail = (TextView) convertView.findViewById(R.id.detail_title);
-
-            holder.selectedCatDetail.setText(contentListObj.get(position).get("content"));
-
-        }else{
-            holder = (CategoryDetailsAdapter.ViewHolder) convertView.getTag();
+            convertView = inflater.inflate(R.layout.detail_items, null);
+            holder = new ViewHolder();
+            holder.selectedCatDetail = (TextView)convertView.findViewById(R.id.detail_title);
+            convertView.setTag(holder);
+        } else {
+            holder = (ViewHolder)convertView.getTag();
         }
+        holder.selectedCatDetail.setText(contentListObj.get(position).get("content"));
+
         return convertView;
     }
+
     private class ViewHolder{
         TextView selectedCatDetail;
     }
